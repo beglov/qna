@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
 
@@ -47,7 +48,7 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:question)).to eq question
     end
 
-    it 'renders show view' do
+    it 'renders edit view' do
       expect(response).to render_template :edit
     end
   end
@@ -120,3 +121,4 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
