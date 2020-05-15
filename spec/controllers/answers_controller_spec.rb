@@ -3,6 +3,7 @@ require 'rails_helper'
 # rubocop:disable Metrics/BlockLength, Layout/LineLength
 RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer) }
+  let(:question) { answer.question }
 
   describe 'GET #show' do
     before { get :show, params: {id: answer} }
@@ -50,7 +51,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with valid attributes' do
       it 'saves a new answer in the database' do
-        expect { post :create, params: {question_id: answer.question, answer: attributes_for(:answer)} }.to change(Answer, :count).by(1)
+        expect { post :create, params: {question_id: answer.question, answer: attributes_for(:answer)} }.to change(question.answers, :count).by(1)
       end
       it 'redirects to show view' do
         post :create, params: {question_id: answer.question, answer: attributes_for(:answer)}
