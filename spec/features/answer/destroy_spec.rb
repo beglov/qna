@@ -7,33 +7,30 @@ feature 'Автор может удалить свой ответ, но не м�
   Может может удалить ответ
 ) do
   given(:user) { create(:user) }
-  given(:answer) { create(:answer) }
+  given(:answer) { create(:answer, body: 'Bad comment') }
 
   describe 'Аутентифицированный пользователь пытается удалить вопрос' do
     scenario 'являясь автором вопроса' do
       login(answer.user)
 
-      visit answer_path(answer)
-      click_on 'Delete'
-
+      visit question_path(answer.question)
+      expect(page).to have_content 'Bad comment'
+      click_on 'Delete answer'
+      expect(page).to_not have_content 'Bad comment'
       expect(page).to have_content 'Answer was successfully deleted.'
     end
 
     scenario 'не являясь автором вопроса' do
       login(user)
 
-      visit answer_path(answer)
-      click_on 'Delete'
-
-      expect(page).to have_content 'Delete unavailable! You are not the author of the answer.'
+      visit question_path(answer.question)
+      expect(page).to_not have_content 'Delete answer'
     end
   end
 
   scenario 'Не аутентифицированный пользователь пытается удалить вопрос' do
-    visit answer_path(answer)
-    click_on 'Delete'
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    visit question_path(answer.question)
+    expect(page).to_not have_content 'Delete answer'
   end
 end
 # rubocop:enable Style/RedundantPercentQ

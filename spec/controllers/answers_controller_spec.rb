@@ -57,6 +57,10 @@ RSpec.describe AnswersController, type: :controller do
       it 'saves a new answer in the database' do
         expect { post :create, params: {question_id: answer.question, answer: attributes_for(:answer)} }.to change(question.answers, :count).by(1)
       end
+      it 'authenticated user to be author of answer' do
+        post :create, params: {question_id: answer.question, answer: attributes_for(:answer)}
+        expect(user).to be_author_of(assigns(:answer))
+      end
       it 'redirects to show view' do
         post :create, params: {question_id: answer.question, answer: attributes_for(:answer)}
         expect(response).to redirect_to answer.question

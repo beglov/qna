@@ -7,32 +7,29 @@ feature 'Автор может удалить свой вопрос, но не �
   Может может удалить вопрос
 ) do
   given(:user) { create(:user) }
-  given(:question) { user.questions.create(attributes_for(:question)) }
-  given(:other_question) { create(:question) }
+  given(:question) { create(:question, title: 'Bad question') }
 
   describe 'Аутентифицированный пользователь пытается удалить вопрос' do
-    background { login(user) }
-
     scenario 'являясь автором вопроса' do
+      login(question.user)
       visit question_path(question)
-      click_on 'Delete'
+      expect(page).to have_content 'Bad question'
+      click_on 'Delete question'
+      expect(page).to_not have_content 'Bad question'
 
       expect(page).to have_content 'Question was successfully deleted.'
     end
 
     scenario 'не являясь автором вопроса' do
-      visit question_path(other_question)
-      click_on 'Delete'
-
-      expect(page).to have_content 'Delete unavailable! You are not the author of the question.'
+      login(user)
+      visit question_path(question)
+      expect(page).to_not have_content 'Delete question'
     end
   end
 
   scenario 'Не аутентифицированный пользователь пытается удалить вопрос' do
     visit question_path(question)
-    click_on 'Delete'
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_content 'Delete question'
   end
 end
 # rubocop:enable Style/RedundantPercentQ
