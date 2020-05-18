@@ -132,7 +132,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'not author' do
-      it 'delete the question' do
+      it 'no delete the question' do
         expect { delete :destroy, params: {id: other_question} }.to_not change(Question, :count)
       end
       it 'redirects to index' do
