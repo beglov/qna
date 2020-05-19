@@ -24,13 +24,13 @@ feature 'Автор может удалить свой ответ, но не м�
       login(user)
 
       visit question_path(answer.question)
-      expect(page).to_not have_content 'Delete answer'
+      expect(page).to_not have_link 'Delete answer'
     end
   end
 
   scenario 'Не аутентифицированный пользователь пытается удалить вопрос' do
     visit question_path(answer.question)
-    expect(page).to_not have_content 'Delete answer'
+    expect(page).to_not have_link 'Delete answer'
   end
 end
 # rubocop:enable Style/RedundantPercentQ
