@@ -13,13 +13,15 @@ RSpec.describe User, type: :model do
 
   describe '#author_of?' do
     let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    let(:user_question) { create(:question, user: user) }
 
     it 'author of own question' do
-      expect(user).to be_author_of(user.questions.create(attributes_for(:question)))
+      expect(user).to be_author_of(user_question)
     end
 
     it 'not author of another question' do
-      expect(user).to_not be_author_of(create(:question))
+      expect(user).to_not be_author_of(question)
     end
   end
 end

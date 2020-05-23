@@ -7,23 +7,26 @@ feature 'Автор может удалить свой ответ, но не м�
   Может может удалить ответ
 ) do
   given(:user) { create(:user) }
-  given(:answer) { create(:answer, body: 'Bad comment') }
+  given(:answer) { create(:answer, user: user, body: 'Bad comment') }
+  given(:other_answer) { create(:answer) }
 
   describe 'Аутентифицированный пользователь пытается удалить вопрос' do
-    scenario 'являясь автором вопроса' do
-      login(answer.user)
+    background { login(user) }
 
+    scenario 'являясь автором вопроса', js: true do
       visit question_path(answer.question)
-      expect(page).to have_content 'Bad comment'
-      click_on 'Delete answer'
-      expect(page).to_not have_content 'Bad comment'
-      expect(page).to have_content 'Answer was successfully deleted.'
+
+      within "#answer-#{answer.id}" do
+        expect(page).to have_content 'Bad comment'
+        accept_confirm do
+          click_on 'Delete answer'
+        end
+        expect(page).to_not have_content 'Bad comment'
+      end
     end
 
     scenario 'не являясь автором вопроса' do
-      login(user)
-
-      visit question_path(answer.question)
+      visit question_path(other_answer.question)
       expect(page).to_not have_link 'Delete answer'
     end
   end

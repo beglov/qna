@@ -19,7 +19,6 @@ feature 'Пользователь может просматривать вопр
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body
-    expect(page).to have_content 'Answers'
     expect(page).to have_content 'answer 1'
     expect(page).to have_content 'answer 2'
   end

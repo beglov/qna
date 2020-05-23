@@ -1,40 +1,43 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ
-feature 'Пользователь, находясь на странице вопроса, может написать ответ на вопрос', %q(
-  Чтобы помочь решить проблему
-  Аутентифицированный пользователь
-  Может написать ответ на вопрос
+# rubocop:disable Style/RedundantPercentQ, Metrics/BlockLength
+feature 'User can give an answer', %q(
+  In order to share my knowledge
+  As an authenticated user
+  I want to be able to create answers
 ) do
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
-  describe 'Аутентифицированный пользователь' do
+  describe 'Authenticated user', js: true do
     background do
       login(user)
       visit question_path(question)
     end
 
-    scenario 'пишет ответ на вопрос' do
-      fill_in 'Answer', with: 'Test answer'
+    scenario 'create answer' do
+      fill_in 'New answer', with: 'Test answer'
       click_on 'Reply'
 
-      expect(page).to have_content 'Your answer added'
-      expect(page).to have_content 'Test answer'
+      expect(current_path).to eq question_path(question)
+      within '.answers' do
+        expect(page).to have_content 'Test answer'
+      end
     end
 
-    scenario 'пишет ответ на вопрос с ошибками' do
+    scenario 'create answer with errors' do
       click_on 'Reply'
 
-      expect(page).to have_content "Answer can't be blank"
+      expect(current_path).to eq question_path(question)
+      within '#new-answer-errors' do
+        expect(page).to have_content "Answer can't be blank"
+      end
     end
   end
 
-  scenario 'Не аутентифицированный пользователь пытается ответить на вопрос' do
+  scenario 'Not authenticated user tries create answer' do
     visit question_path(question)
-    click_on 'Reply'
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_button 'Reply'
   end
 end
-# rubocop:enable Style/RedundantPercentQ
+# rubocop:enable Style/RedundantPercentQ, Metrics/BlockLength

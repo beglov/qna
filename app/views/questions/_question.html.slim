@@ -1,0 +1,21 @@
+#question
+  h1= @question.title
+  p= @question.body
+
+  - if current_user&.author_of?(@question)
+    p
+      = link_to('Delete question', question_path(@question), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger')
+      = ' | '
+      = link_to('Edit question', '#', class: 'edit-question-link', data: {question_id: @question.id})
+
+  #question-errors
+    = render 'shared/short_errors', resource: @question
+
+  = form_with model: @question, class: 'hidden', id: "edit-question-#{@question.id}" do |f|
+    p
+      = f.label :title
+      = f.text_field :title
+      p
+        = f.label :body
+        = f.text_area :body
+      p= f.submit 'Update'
