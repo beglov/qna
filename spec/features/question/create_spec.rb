@@ -8,7 +8,7 @@ feature 'Пользователь может создать вопрос', %q(
 ) do
   given(:user) { create(:user) }
 
-  describe 'Аутентифицированный пользователь' do
+  describe 'Authenticated user' do
     background do
       login(user)
 
@@ -16,7 +16,7 @@ feature 'Пользователь может создать вопрос', %q(
       click_on 'Ask question'
     end
 
-    scenario 'задает вопрос' do
+    scenario 'asks a question' do
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'text text text'
       click_on 'Ask'
@@ -26,14 +26,23 @@ feature 'Пользователь может создать вопрос', %q(
       expect(page).to have_content 'text text text'
     end
 
-    scenario 'задает вопрос с ошибками' do
+    scenario 'asks a question with errors' do
+      click_on 'Ask'
+      expect(page).to have_content "Title can't be blank"
+    end
+
+    scenario 'asks a question with attached file' do
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'text text text'
+
+      attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
       click_on 'Ask'
 
-      expect(page).to have_content "Title can't be blank"
+      expect(page).to have_link 'rails_helper.rb'
     end
   end
 
-  scenario 'Не аутентифицированный пользователь пытается задать вопрос' do
+  scenario 'Unauthenticated user tries to ask a question' do
     visit questions_path
     click_on 'Ask question'
 
