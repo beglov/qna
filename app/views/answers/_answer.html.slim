@@ -6,7 +6,12 @@ div id="answer-#{answer.id}"
 
   - if answer.files.attached?
     - answer.files.each do |file|
-      p= link_to file.filename.to_s, url_for(file)
+      p id="answer-file-#{file.id}"
+        = link_to file.filename.to_s, url_for(file)
+        - if current_user&.author_of?(answer)
+          = " | "
+          = link_to('Delete file', delete_file_answer_path(answer, file_id: file), method: :delete, remote: true,
+                  data: {confirm: 'Are you sure?'})
 
   - if current_user&.author_of?(answer)
     p

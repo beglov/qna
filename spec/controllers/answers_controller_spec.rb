@@ -53,7 +53,9 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with valid attributes' do
       it 'saves a new answer in the database' do
-        expect { post :create, params: {question_id: question, answer: attributes_for(:answer), format: :js} }.to change(question.answers, :count).by(1)
+        expect {
+          post :create, params: {question_id: question, answer: attributes_for(:answer), format: :js}
+        }.to change(question.answers, :count).by(1)
       end
       it 'authenticated user to be author of answer' do
         post :create, params: {question_id: question, answer: attributes_for(:answer), format: :js}
@@ -67,7 +69,9 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save the answer' do
-        expect { post :create, params: {question_id: question, answer: attributes_for(:answer, :invalid), format: :js} }.to_not change(Answer, :count)
+        expect {
+          post :create, params: {question_id: question, answer: attributes_for(:answer, :invalid), format: :js}
+        }.to_not change(Answer, :count)
       end
       it 'renders create template' do
         post :create, params: {question_id: question, answer: attributes_for(:answer, :invalid), format: :js}
@@ -113,7 +117,9 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'author' do
       it 'delete the answer' do
-        expect { delete :destroy, params: {id: answer, format: :js} }.to change(Answer, :count).by(-1)
+        expect {
+          delete :destroy, params: {id: answer, format: :js}
+        }.to change(Answer, :count).by(-1)
       end
       it 'render destroy template' do
         delete :destroy, params: {id: answer, format: :js}
@@ -123,7 +129,9 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'not author' do
       it 'no delete the answer' do
-        expect { delete :destroy, params: {id: other_answer, format: :js} }.to_not change(Answer, :count)
+        expect {
+          delete :destroy, params: {id: other_answer, format: :js}
+        }.to_not change(Answer, :count)
       end
       it 'render destroy template' do
         delete :destroy, params: {id: answer, format: :js}
@@ -159,6 +167,42 @@ RSpec.describe AnswersController, type: :controller do
       end
       it 'render select_best template' do
         expect(response).to render_template :select_best
+      end
+    end
+  end
+
+  describe 'DELETE #delete_file' do
+    before { login(user) }
+
+    context 'author' do
+      before do
+        answer.files.attach(create_file_blob)
+      end
+
+      it 'delete the file' do
+        expect {
+          delete :delete_file, params: {id: answer, file_id: answer.files.first, format: :js}
+        }.to change(answer.files, :count).by(-1)
+      end
+      it 'render delete_file view' do
+        delete :delete_file, params: {id: answer, file_id: answer.files.first, format: :js}
+        expect(response).to render_template :delete_file
+      end
+    end
+
+    context 'not author' do
+      before do
+        other_answer.files.attach(create_file_blob)
+      end
+
+      it 'no delete the file' do
+        expect {
+          delete :delete_file, params: {id: other_answer, file_id: other_answer.files.first, format: :js}
+        }.to_not change(other_answer.files, :count)
+      end
+      it 'render delete_file view' do
+        delete :delete_file, params: {id: other_answer, file_id: other_answer.files.first, format: :js}
+        expect(response).to render_template :delete_file
       end
     end
   end

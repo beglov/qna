@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :answers, shallow: true do
       member do
         post :select_best
+        delete :delete_file
       end
     end
   end
