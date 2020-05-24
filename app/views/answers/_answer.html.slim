@@ -24,4 +24,7 @@ div id="answer-#{answer.id}"
     = form_with model: answer, class: 'hidden', id: "edit-answer-#{answer.id}" do |f|
       p= f.label :body, 'Edit Answer'
       p= f.text_area :body
+      p
+        = f.label :files
+        = f.file_field :files, multiple: true
       p= f.submit 'Save'
