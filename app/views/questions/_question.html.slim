@@ -4,11 +4,17 @@
 
   - if @question.files.attached?
     - @question.files.each do |file|
-      p= link_to file.filename.to_s, url_for(file)
+      div id="question-file-#{file.id}"
+        p
+          = link_to file.filename.to_s, url_for(file)
+          - if current_user&.author_of?(@question)
+            = " | "
+            = link_to('Delete file', delete_file_question_path(@question, file_id: file), method: :delete, remote: true,
+                    data: {confirm: 'Are you sure?'})
 
   - if current_user&.author_of?(@question)
     p
-      = link_to('Delete question', question_path(@question), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger')
+      = link_to('Delete question', question_path(@question), method: :delete, data: {confirm: 'Are you sure?'})
       = ' | '
       = link_to('Edit question', '#', class: 'edit-question-link', data: {question_id: @question.id})
 
