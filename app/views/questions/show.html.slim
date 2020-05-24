@@ -4,11 +4,4 @@
   = render @question.answers.reject(&:new_record?)
 
 - if user_signed_in?
-  #new-answer
-    #new-answer-errors
-      = render 'shared/short_errors', resource: @answer
-
-    = form_with model: [@question, @question.answers.new] do |f|
-      p= f.label :body, 'New answer:'
-      p= f.text_area :body
-      p= f.submit 'Reply'
+  = render 'new_answer', question: @question, answer: @answer

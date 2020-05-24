@@ -15,13 +15,28 @@ feature 'User can give an answer', %q(
       visit question_path(question)
     end
 
-    scenario 'create answer' do
-      fill_in 'New answer', with: 'Test answer'
-      click_on 'Reply'
+    describe 'create answer with valid fields' do
+      background do
+        fill_in 'New answer', with: 'Test answer'
+      end
 
-      expect(current_path).to eq question_path(question)
-      within '.answers' do
-        expect(page).to have_content 'Test answer'
+      scenario '' do
+        click_on 'Reply'
+
+        expect(current_path).to eq question_path(question)
+        within '.answers' do
+          expect(page).to have_content 'Test answer'
+        end
+      end
+
+      scenario 'and attached files' do
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Reply'
+
+        within '.answers' do
+          expect(page).to have_link 'rails_helper.rb'
+          expect(page).to have_link 'spec_helper.rb'
+        end
       end
     end
 
