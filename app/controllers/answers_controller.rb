@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: :show
-  before_action :load_answer, only: %i[show edit update destroy select_best delete_file]
+  before_action :load_answer, only: %i[show edit update destroy select_best]
 
   def show
   end
@@ -27,13 +27,6 @@ class AnswersController < ApplicationController
 
   def select_best
     @answer.select_best! if current_user.author_of?(@answer)
-  end
-
-  def delete_file
-    if current_user.author_of?(@answer)
-      @attachment = ActiveStorage::Attachment.find(params[:file_id])
-      @attachment.purge
-    end
   end
 
   private

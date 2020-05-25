@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ, Metrics/BlockLength
+# rubocop:disable Style/RedundantPercentQ
 feature 'User can give an answer', %q(
   In order to share my knowledge
   As an authenticated user
@@ -55,4 +55,4 @@ feature 'User can give an answer', %q(
     expect(page).to_not have_button 'Reply'
   end
 end
-# rubocop:enable Style/RedundantPercentQ, Metrics/BlockLength
+# rubocop:enable Style/RedundantPercentQ

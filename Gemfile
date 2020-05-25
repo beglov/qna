@@ -15,7 +15,7 @@ gem 'slim-rails'
 gem 'devise'
 gem 'jquery-rails'
 
-gem "aws-sdk-s3", require: false
+gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'rubocop-rails', require: false
 

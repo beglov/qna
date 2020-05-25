@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# rubocop:disable Metrics/BlockLength, Layout/LineLength
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
@@ -170,41 +169,4 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
-
-  describe 'DELETE #delete_file' do
-    before { login(user) }
-
-    context 'author' do
-      before do
-        answer.files.attach(create_file_blob)
-      end
-
-      it 'delete the file' do
-        expect {
-          delete :delete_file, params: {id: answer, file_id: answer.files.first, format: :js}
-        }.to change(answer.files, :count).by(-1)
-      end
-      it 'render delete_file view' do
-        delete :delete_file, params: {id: answer, file_id: answer.files.first, format: :js}
-        expect(response).to render_template :delete_file
-      end
-    end
-
-    context 'not author' do
-      before do
-        other_answer.files.attach(create_file_blob)
-      end
-
-      it 'no delete the file' do
-        expect {
-          delete :delete_file, params: {id: other_answer, file_id: other_answer.files.first, format: :js}
-        }.to_not change(other_answer.files, :count)
-      end
-      it 'render delete_file view' do
-        delete :delete_file, params: {id: other_answer, file_id: other_answer.files.first, format: :js}
-        expect(response).to render_template :delete_file
-      end
-    end
-  end
 end
-# rubocop:enable Metrics/BlockLength, Layout/LineLength

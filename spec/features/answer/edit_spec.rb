@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ, Metrics/BlockLength
+# rubocop:disable Style/RedundantPercentQ
 feature 'User can edit his answer', %q(
   In order to correct mistakes
   As an author of answer
@@ -74,4 +74,4 @@ feature 'User can edit his answer', %q(
     end
   end
 end
-# rubocop:enable Style/RedundantPercentQ, Metrics/BlockLength
+# rubocop:enable Style/RedundantPercentQ

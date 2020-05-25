@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ
 feature 'Author of question can delete attached files' do
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
@@ -37,4 +36,3 @@ feature 'Author of question can delete attached files' do
     end
   end
 end
-# rubocop:enable Style/RedundantPercentQ
