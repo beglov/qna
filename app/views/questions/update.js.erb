@@ -1,5 +1,9 @@
-<% if @question.errors.blank? %>
-  $('#question').html('<%= j render @question %>');
+<% if @question.links.any?(&:gist?) %>
+  window.location.reload(false); // иначе не подгружается вставляемый в партиале answer script
 <% else %>
-  $('#question-errors').html('<%= render 'shared/errors', resource: @question %>');
+  <% if @question.errors.blank? %>
+    $('#question').html('<%= j render @question %>');
+  <% else %>
+    $('#question-errors').html('<%= render 'shared/errors', resource: @question %>');
+  <% end %>
 <% end %>
