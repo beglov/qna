@@ -11,7 +11,8 @@
           = link_to('Delete file', attachment_path(file), method: :delete, remote: true,
                   data: {confirm: 'Are you sure?'})
 
-  = render 'links/index', resource: @question
+  - if @question.links.present?
+    = render 'links/index', resource: @question
 
   - if current_user&.author_of?(@question)
     p

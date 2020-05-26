@@ -11,7 +11,6 @@
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true
 
-  p Links:
   .question-links
     = f.fields_for :links do |link|
       = render 'links/link_fields', f: link

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :link do
     association :linkable, factory: :question
-    name { "MyString" }
+    name { "Test link" }
     url { "http://foo.com" }
   end
 end
