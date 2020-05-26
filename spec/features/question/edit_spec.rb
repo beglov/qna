@@ -25,8 +25,8 @@ feature 'User can edit his question', %q(
       end
 
       describe 'with valid fields' do
-        given(:gist_url) { 'https://gist.github.com/beglov/736817e4f485da27bf995a6bda7fb7a9' }
         given(:google_url) { 'https://www.google.com/' }
+        given(:gist_url) { 'https://gist.github.com/beglov/736817e4f485da27bf995a6bda7fb7a9' }
 
         background do
           fill_in 'Title', with: 'New Title'
@@ -59,19 +59,19 @@ feature 'User can edit his question', %q(
           within '#question' do
             click_on 'add link'
             within '.nested-fields:last-of-type' do
-              fill_in 'Link name', with: 'My gist'
-              fill_in 'Url', with: gist_url
+              fill_in 'Link name', with: 'Google'
+              fill_in 'Url', with: google_url
             end
             click_on 'add link'
             within '.nested-fields:last-of-type' do
-              fill_in 'Link name', with: 'Google'
-              fill_in 'Url', with: google_url
+              fill_in 'Link name', with: 'My gist'
+              fill_in 'Url', with: gist_url
             end
 
             click_on 'Update'
 
-            expect(page).to have_content 'Hello world!'
             expect(page).to have_link 'Google', href: google_url
+            expect(page).to have_content 'Hello world!'
           end
         end
       end
