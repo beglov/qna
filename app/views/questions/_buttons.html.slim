@@ -1,0 +1,6 @@
+p
+  = link_to('Delete question', question_path(question), method: :delete, data: {confirm: 'Are you sure?'})
+  = ' | '
+  = link_to('Edit question', '#', class: 'edit-question-link', data: {question_id: question.id})
+
+= render 'questions/form', question: question
