@@ -4,4 +4,5 @@
   = render @question.answers.reject(&:new_record?)
 
 - if user_signed_in?
-  = render 'new_answer', question: @question, answer: @answer
+  #new-answer
+    = render 'answers/form', answer: @answer

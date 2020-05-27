@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-feature 'User can delete links from answer', %{
+feature 'User can delete links from answer', %(
   In order to remove unnecessary links from my answer
   As an answer's author
   I'd like to be able to delete links
-} do
+) do
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
   given(:answer) { create(:answer, question: question, user: user) }

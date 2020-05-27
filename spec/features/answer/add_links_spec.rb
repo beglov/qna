@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-feature 'User can add links to answer', %{
+feature 'User can add links to answer', %(
   In order to provide additional info to my answer
   As an answer's author
   I'd like to be able to add links
-} do
+) do
   given(:user) { create(:user) }
   given(:question) { create(:question) }
   given(:gist_url) { 'https://gist.github.com/beglov/736817e4f485da27bf995a6bda7fb7a9' }
