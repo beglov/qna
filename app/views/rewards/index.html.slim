@@ -1,0 +1,7 @@
+h1 Rewards list
+
+- @rewards.each do |reward|
+  p= reward.question.title
+  - if reward.file.attached?
+    p= image_tag url_for(reward.file)
+  p= reward.title
