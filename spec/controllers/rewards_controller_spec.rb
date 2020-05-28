@@ -5,7 +5,7 @@ RSpec.describe RewardsController, type: :controller do
   let!(:user_rewards) { create_list(:reward, 3, user: user) }
   let!(:other_rewards) { create_list(:reward, 3) }
 
-  describe "GET #index" do
+  describe 'GET #index' do
     before { login(user) }
     before { get :index }
 

@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ
 feature 'User can view their rewards' do
   given(:user) { create(:user) }
   given!(:rewards) { create_list(:reward, 3, user: user) }
@@ -17,4 +16,3 @@ feature 'User can view their rewards' do
     end
   end
 end
-# rubocop:enable Style/RedundantPercentQ
