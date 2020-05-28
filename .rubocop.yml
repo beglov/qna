@@ -25,8 +25,6 @@ Style/ClassAndModuleChildren:
   Enabled: false
 Style/BlockDelimiters:
   BracesRequiredMethods: ['expect']
-Layout/LineLength:
-  Max: 120
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 Layout/FirstArrayElementIndentation:

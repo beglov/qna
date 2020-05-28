@@ -37,6 +37,15 @@ feature 'Пользователь может создать вопрос', %q(
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
       end
+
+      scenario 'and assign an award for the best answer' do
+        fill_in 'Reward title', with: 'Test reward'
+        attach_file 'Reward file', "#{Rails.root}/spec/fixtures/files/example.jpg"
+        click_on 'Ask'
+
+        expect(page).to have_content 'Test reward'
+        expect(page).to have_link 'example.jpg'
+      end
     end
 
     scenario 'asks a question with errors' do

@@ -5,6 +5,9 @@
   - if @question.files.attached?
     = render partial: "attachments/attachment", collection: @question.files
 
+  - if @question.reward
+    = render @question.reward
+
   - if @question.links.present?
     = render 'links/index', resource: @question
 
