@@ -1,0 +1,29 @@
+= form_with question_form_options(question) do |f|
+  #question-errors
+    = render 'shared/errors', resource: question
+
+  p
+    = f.label :title
+    = f.text_field :title
+  p
+    = f.label :body
+    = f.text_area :body
+  p
+    = f.label :files
+    = f.file_field :files, multiple: true, direct_upload: true
+
+  = f.fields_for :reward do |reward|
+    p
+      = reward.label :title, 'Reward title'
+      = reward.text_field :title
+    p
+      = reward.label :file, 'Reward file'
+      = reward.file_field :file
+
+  .question-links
+    = f.fields_for :links do |link|
+      = render 'links/link_fields', f: link
+    p.links
+      = link_to_add_association 'add link', f, :links, partial: 'links/link_fields'
+
+  p= f.submit question.new_record? ? 'Ask' : 'Update'

@@ -25,6 +25,9 @@ feature 'User can edit his question', %q(
       end
 
       describe 'with valid fields' do
+        given(:google_url) { 'https://www.google.com/' }
+        given(:gist_url) { 'https://gist.github.com/beglov/736817e4f485da27bf995a6bda7fb7a9' }
+
         background do
           fill_in 'Title', with: 'New Title'
           fill_in 'Body', with: 'New Body'
@@ -49,6 +52,26 @@ feature 'User can edit his question', %q(
 
             expect(page).to have_link 'rails_helper.rb'
             expect(page).to have_link 'spec_helper.rb'
+          end
+        end
+
+        scenario 'can adds links' do
+          within '#question' do
+            click_on 'add link'
+            within '.nested-fields:last-of-type' do
+              fill_in 'Link name', with: 'Google'
+              fill_in 'Url', with: google_url
+            end
+            click_on 'add link'
+            within '.nested-fields:last-of-type' do
+              fill_in 'Link name', with: 'My gist'
+              fill_in 'Url', with: gist_url
+            end
+
+            click_on 'Update'
+
+            expect(page).to have_link 'Google', href: google_url
+            expect(page).to have_content 'Hello world!'
           end
         end
       end

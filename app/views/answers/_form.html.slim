@@ -1,0 +1,17 @@
+= form_with answer_form_options(answer) do |f|
+  div id=answer_errors_div_id(answer)
+    = render 'shared/short_errors', resource: answer
+
+  p= f.label :body, answer.new_record? ? 'New answer:' : 'Edit Answer'
+  p= f.text_area :body
+  p
+    = f.label :files
+    = f.file_field :files, multiple: true, direct_upload: true
+
+  .answer-links
+    = f.fields_for :links do |link|
+      = render 'links/link_fields', f: link
+    p.links
+      = link_to_add_association 'add link', f, :links, partial: 'links/link_fields'
+
+  p= f.submit answer.new_record? ? 'Reply' : 'Save'

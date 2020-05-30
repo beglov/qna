@@ -1,5 +1,9 @@
-<% if @answer.errors.blank? %>
-  $('#answer-<%= @answer.id %>').html('<%= j render @answer %>');
+<% if @answer.links.any?(&:gist?) %>
+  window.location.reload(false); // иначе не подгружается вставляемый в партиале answer script
 <% else %>
-  $('#answer-<%= @answer.id %>-errors').html('<%= render 'shared/short_errors', resource: @answer %>');
+  <% if @answer.errors.blank? %>
+    $('#answer-<%= @answer.id %>').html('<%= j render @answer %>');
+  <% else %>
+    $('#answer-<%= @answer.id %>-errors').html('<%= render 'shared/short_errors', resource: @answer %>');
+  <% end %>
 <% end %>
