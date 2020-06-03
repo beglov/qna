@@ -1,5 +1,8 @@
 #question
   h1= @question.title
+  p
+    = "Rating: "
+    span.rating= @question.rating
   p= @question.body
 
   - if @question.files.attached?
@@ -11,5 +14,4 @@
   - if @question.links.present?
     = render 'links/index', resource: @question
 
-  - if current_user&.author_of?(@question)
-    = render 'questions/buttons', question: @question
+  = render 'questions/buttons', question: @question

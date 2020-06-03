@@ -5,4 +5,12 @@ $(document).on('turbolinks:load', function () {
         const questionId = $(this).data('questionId');
         $(`#edit-question-${questionId}`).removeClass('hidden');
     })
+
+    $('#question').on('ajax:success', '.up-question-link, .down-question-link', function (e) {
+        var question = e.detail[0];
+
+        $(`#question .up-question-link`).hide();
+        $(`#question .down-question-link`).hide();
+        $(`#question .rating`).html(question.rating);
+    })
 })

@@ -11,4 +11,8 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :reward, reject_if: :all_blank
 
   validates :title, :body, presence: true
+
+  def rating
+    votes.positive.count - votes.negative.count
+  end
 end

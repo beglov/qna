@@ -149,4 +149,24 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'POST #up' do
+    before { login(user) }
+
+    it 'create positive vote' do
+      expect {
+        post :up, params: {id: question}
+      }.to change(question.votes.positive, :count).by(1)
+    end
+  end
+
+  describe 'POST #down' do
+    before { login(user) }
+
+    it 'create negative vote' do
+      expect {
+        post :down, params: {id: question}
+      }.to change(question.votes.negative, :count).by(1)
+    end
+  end
 end
