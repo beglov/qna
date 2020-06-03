@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: :show
-  before_action :load_answer, only: %i[show edit update destroy select_best up down]
+  before_action :load_answer, only: %i[show edit update destroy select_best up down cancel_vote]
 
   def show
   end
@@ -41,6 +41,12 @@ class AnswersController < ApplicationController
     unless current_user.author_of?(@answer)
       @answer.votes.create_with(negative: true).find_or_create_by(user_id: current_user.id)
     end
+
+    render json: {id: @answer.id, rating: @answer.rating}
+  end
+
+  def cancel_vote
+    @answer.votes.find_by(user_id: current_user.id).try(:destroy)
 
     render json: {id: @answer.id, rating: @answer.rating}
   end

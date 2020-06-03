@@ -13,6 +13,7 @@ Rails.application.routes.draw do
         post :select_best
         post :down
         post :up
+        post :cancel_vote
       end
     end
   end

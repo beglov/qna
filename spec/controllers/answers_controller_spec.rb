@@ -209,4 +209,17 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'POST #cancel_vote' do
+    before { login(user) }
+    before do
+      answer.votes.create_with(negative: true).find_or_create_by(user_id: user.id)
+    end
+
+    it 'delete vote' do
+      expect {
+        post :cancel_vote, params: {id: answer}
+      }.to change(answer.votes.negative, :count).by(-1)
+    end
+  end
 end
