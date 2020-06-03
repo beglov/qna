@@ -15,6 +15,7 @@ gem 'slim-rails'
 gem 'devise'
 gem 'jquery-rails'
 gem 'cocoon'
+gem 'bootstrap', '~> 4.5.0'
 
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.1.0', require: false
