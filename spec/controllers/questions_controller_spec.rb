@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
   let(:user) { create(:user) }
+  let(:user_question) { create(:question, user: user) }
+  let(:question) { create(:question) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
@@ -122,17 +123,17 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     before { login(user) }
-    let!(:question) { create(:question, user: user) }
-    let!(:other_question) { create(:question) }
+    let!(:user_question) { create(:question, user: user) }
+    let!(:question) { create(:question) }
 
     context 'author' do
       it 'delete the question' do
         expect {
-          delete :destroy, params: {id: question}
+          delete :destroy, params: {id: user_question}
         }.to change(Question, :count).by(-1)
       end
       it 'redirects to index' do
-        delete :destroy, params: {id: question}
+        delete :destroy, params: {id: user_question}
         expect(response).to redirect_to questions_path
       end
     end
@@ -140,11 +141,11 @@ RSpec.describe QuestionsController, type: :controller do
     context 'not author' do
       it 'no delete the question' do
         expect {
-          delete :destroy, params: {id: other_question}
+          delete :destroy, params: {id: question}
         }.to_not change(Question, :count)
       end
       it 'redirects to index' do
-        delete :destroy, params: {id: other_question}
+        delete :destroy, params: {id: question}
         expect(response).to redirect_to questions_path
       end
     end
@@ -153,20 +154,40 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'POST #up' do
     before { login(user) }
 
-    it 'create positive vote' do
-      expect {
-        post :up, params: {id: question}
-      }.to change(question.votes.positive, :count).by(1)
+    context 'author' do
+      it 'not create vote' do
+        expect {
+          post :up, params: {id: user_question}
+        }.to_not change(Vote, :count)
+      end
+    end
+
+    context 'not author' do
+      it 'create positive vote' do
+        expect {
+          post :up, params: {id: question}
+        }.to change(question.votes.positive, :count).by(1)
+      end
     end
   end
 
   describe 'POST #down' do
     before { login(user) }
 
-    it 'create negative vote' do
-      expect {
-        post :down, params: {id: question}
-      }.to change(question.votes.negative, :count).by(1)
+    context 'author' do
+      it 'not create vote' do
+        expect {
+          post :down, params: {id: user_question}
+        }.to_not change(Vote, :count)
+      end
+    end
+
+    context 'not author' do
+      it 'create negative vote' do
+        expect {
+          post :down, params: {id: question}
+        }.to change(question.votes.negative, :count).by(1)
+      end
     end
   end
 end
