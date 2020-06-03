@@ -5,10 +5,15 @@
       = ' | '
       = link_to('Edit question', '#', class: 'edit-question-link', data: {question_id: question.id})
 
-    - if current_user.can_vote?(question)
+    - unless current_user.author_of?(question)
       = " | "
-      = link_to('Down!', down_question_path(question), method: :post, remote: true, class: 'down-question-link')
+      = link_to('Down!', down_question_path(question), method: :post, remote: true,
+              class: "down-question-link #{current_user.voted?(question) ? 'hidden' : ''}")
       = " | "
-      = link_to('Up!', up_question_path(question), method: :post, remote: true, class: 'up-question-link')
+      = link_to('Up!', up_question_path(question), method: :post, remote: true,
+              class: "up-question-link #{current_user.voted?(question) ? 'hidden' : ''}")
+      = " | "
+      = link_to('Cancel vote', cancel_vote_question_path(question), method: :post, remote: true,
+              class: "cancel-vote-question-link #{current_user.voted?(question) ? '' : 'hidden'}")
 
   = render 'questions/form', question: question

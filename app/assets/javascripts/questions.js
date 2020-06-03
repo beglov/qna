@@ -11,6 +11,14 @@ $(document).on('turbolinks:load', function () {
 
         $(`#question .up-question-link`).hide();
         $(`#question .down-question-link`).hide();
+        $(`#question .cancel-vote-question-link`).show();
+        $(`#question .rating`).html(question.rating);
+    }).on('ajax:success', '.cancel-vote-question-link', function (e) {
+        var question = e.detail[0];
+
+        $(`#question .up-question-link`).show();
+        $(`#question .down-question-link`).show();
+        $(`#question .cancel-vote-question-link`).hide();
         $(`#question .rating`).html(question.rating);
     })
 })

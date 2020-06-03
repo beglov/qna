@@ -14,14 +14,40 @@ feature 'User can vote for the question' do
   describe 'Authenticated user' do
     background { login(user) }
 
-    scenario 'can vote for the question they like', js: true do
+    scenario 'can vote up for the question they like', js: true do
       visit question_path(question)
 
       within '#question' do
         click_on 'Up!'
         expect(page).to_not have_link 'Up!'
         expect(page).to_not have_link 'Down!'
+        expect(page).to have_link 'Cancel vote'
         expect(page).to have_content 'Rating: 1'
+      end
+    end
+
+    scenario 'can vote down for the question they like', js: true do
+      visit question_path(question)
+
+      within '#question' do
+        click_on 'Down!'
+        expect(page).to_not have_link 'Up!'
+        expect(page).to_not have_link 'Down!'
+        expect(page).to have_link 'Cancel vote'
+        expect(page).to have_content 'Rating: -1'
+      end
+    end
+
+    scenario 'can cancel their vote', js: true do
+      visit question_path(question)
+
+      within '#question' do
+        click_on 'Up!'
+        expect(page).to_not have_link 'Up!'
+        expect(page).to have_content 'Rating: 1'
+        click_on 'Cancel vote'
+        expect(page).to have_link 'Up!'
+        expect(page).to have_content 'Rating: 0'
       end
     end
 

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     member do
       post :down
       post :up
+      post :cancel_vote
     end
     resources :answers, shallow: true do
       member do

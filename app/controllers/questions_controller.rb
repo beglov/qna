@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :load_question, only: %i[show edit update destroy up down]
+  before_action :load_question, only: %i[show edit update destroy up down cancel_vote]
 
   def index
     @questions = Question.all
@@ -54,6 +54,11 @@ class QuestionsController < ApplicationController
       @question.votes.create_with(negative: true).find_or_create_by(user_id: current_user.id)
     end
 
+    render json: {id: @question.id, rating: @question.rating}
+  end
+
+  def cancel_vote
+    @question.votes.find_by(user_id: current_user.id).try(:destroy)
     render json: {id: @question.id, rating: @question.rating}
   end
 

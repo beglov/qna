@@ -20,6 +20,7 @@ $(document).on('turbolinks:load', function () {
 
         $(`#answer-${answer.id} .up-answer-link`).show();
         $(`#answer-${answer.id} .down-answer-link`).show();
+        $(`#answer-${answer.id} .cancel-vote-answer-link`).hide();
         $(`#answer-${answer.id} .rating`).html(answer.rating);
     })
 })

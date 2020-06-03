@@ -14,10 +14,4 @@ class User < ApplicationRecord
   def voted?(resource)
     resource.votes.exists?(user_id: id)
   end
-
-  def can_vote?(resource)
-    return false if author_of?(resource)
-
-    !voted?(resource)
-  end
 end

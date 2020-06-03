@@ -47,7 +47,6 @@ class AnswersController < ApplicationController
 
   def cancel_vote
     @answer.votes.find_by(user_id: current_user.id).try(:destroy)
-
     render json: {id: @answer.id, rating: @answer.rating}
   end
 

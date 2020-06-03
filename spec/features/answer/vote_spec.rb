@@ -23,6 +23,7 @@ feature 'User can vote for the answer' do
         click_on 'Up!'
         expect(page).to_not have_link 'Up!'
         expect(page).to_not have_link 'Down!'
+        expect(page).to have_link 'Cancel vote'
         expect(page).to have_content 'Rating: 1'
       end
     end
@@ -32,6 +33,7 @@ feature 'User can vote for the answer' do
         click_on 'Down!'
         expect(page).to_not have_link 'Up!'
         expect(page).to_not have_link 'Down!'
+        expect(page).to have_link 'Cancel vote'
         expect(page).to have_content 'Rating: -1'
       end
     end

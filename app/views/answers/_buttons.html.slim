@@ -12,10 +12,10 @@
     - unless current_user.author_of?(answer)
       = " | "
       = link_to('Down!', down_answer_path(answer), method: :post, remote: true,
-              class: "down-answer-link #{current_user.can_vote?(answer) ? '' : 'hidden'}")
+              class: "down-answer-link #{current_user.voted?(answer) ? 'hidden' : ''}")
       = " | "
       = link_to('Up!', up_answer_path(answer), method: :post, remote: true,
-              class: "up-answer-link #{current_user.can_vote?(answer) ? '' : 'hidden'}")
+              class: "up-answer-link #{current_user.voted?(answer) ? 'hidden' : ''}")
       = " | "
       = link_to('Cancel vote', cancel_vote_answer_path(answer), method: :post, remote: true,
               class: "cancel-vote-answer-link #{current_user.voted?(answer) ? '' : 'hidden'}")
