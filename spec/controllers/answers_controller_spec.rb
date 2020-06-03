@@ -4,7 +4,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let!(:answer) { create(:answer, user: user, question: question) }
-  let!(:other_answer) { create(:answer) }
+  let!(:other_answer) { create(:answer, question: question) }
 
   describe 'GET #show' do
     before { get :show, params: {id: answer} }
@@ -167,6 +167,26 @@ RSpec.describe AnswersController, type: :controller do
       it 'render select_best template' do
         expect(response).to render_template :select_best
       end
+    end
+  end
+
+  describe 'POST #up' do
+    before { login(user) }
+
+    it 'create positive vote' do
+      expect {
+        post :up, params: {id: other_answer}
+      }.to change(other_answer.votes.positive, :count).by(1)
+    end
+  end
+
+  describe 'POST #down' do
+    before { login(user) }
+
+    it 'create negative vote' do
+      expect {
+        post :down, params: {id: other_answer}
+      }.to change(other_answer.votes.negative, :count).by(1)
     end
   end
 end

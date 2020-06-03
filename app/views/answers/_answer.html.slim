@@ -2,6 +2,9 @@ div id="answer-#{answer.id}"
   - if answer.best?
     p class='best-answer-title' This is best answer!
 
+  p
+    = "Rating: "
+    span.rating= answer.rating
   p= answer.body
 
   - if answer.files.attached?
@@ -10,5 +13,4 @@ div id="answer-#{answer.id}"
   - if answer.links.present?
     = render 'links/index', resource: answer
 
-  - if current_user&.author_of?(answer)
-    = render 'answers/buttons', answer: answer
+  = render 'answers/buttons', answer: answer

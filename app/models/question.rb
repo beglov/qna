@@ -2,6 +2,7 @@ class Question < ApplicationRecord
   belongs_to :user
   has_many :answers, -> { order('best DESC, created_at') }, dependent: :delete_all
   has_many :links, as: :linkable, dependent: :delete_all
+  has_many :votes, as: :votable, dependent: :delete_all
   has_one :reward, dependent: :destroy
 
   has_many_attached :files

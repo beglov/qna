@@ -5,6 +5,7 @@ RSpec.describe Question, type: :model do
     it { should belong_to(:user) }
     it { should have_many(:answers).order('best DESC, created_at').dependent(:delete_all) }
     it { should have_many(:links).dependent(:delete_all) }
+    it { should have_many(:votes).dependent(:delete_all) }
     it { should have_one(:reward).dependent(:destroy) }
   end
 
