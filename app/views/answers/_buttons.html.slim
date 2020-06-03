@@ -9,7 +9,7 @@
       = " | "
       = link_to('Edit answer', '#', class: 'edit-answer-link', data: {answer_id: answer.id})
 
-    - unless current_user.author_of?(answer)
+    - if current_user.can_vote?(answer)
       = " | "
       = link_to('Down!', down_answer_path(answer), method: :post, remote: true, class: 'down-answer-link')
       = " | "

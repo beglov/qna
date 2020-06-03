@@ -17,7 +17,7 @@ feature 'User can vote for the question' do
     scenario 'can vote for the question they like', js: true do
       visit question_path(question)
 
-      within "#question" do
+      within '#question' do
         click_on 'Up!'
         expect(page).to_not have_link 'Up!'
         expect(page).to_not have_link 'Down!'
@@ -28,7 +28,7 @@ feature 'User can vote for the question' do
     scenario 'tries to vote for their question' do
       visit question_path(user_question)
 
-      within "#question" do
+      within '#question' do
         expect(page).to_not have_link 'Up!'
         expect(page).to_not have_link 'Down!'
       end
