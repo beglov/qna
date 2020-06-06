@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
+  it_behaves_like 'voted'
+
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let!(:user_answer) { create(:answer, user: user, question: question) }
@@ -167,59 +169,6 @@ RSpec.describe AnswersController, type: :controller do
       it 'render select_best template' do
         expect(response).to render_template :select_best
       end
-    end
-  end
-
-  describe 'POST #up' do
-    before { login(user) }
-
-    context 'author' do
-      it 'not create vote' do
-        expect {
-          post :up, params: {id: user_answer}
-        }.to_not change(Vote, :count)
-      end
-    end
-
-    context 'not author' do
-      it 'create positive vote' do
-        expect {
-          post :up, params: {id: answer}
-        }.to change(answer.votes.positive, :count).by(1)
-      end
-    end
-  end
-
-  describe 'POST #down' do
-    before { login(user) }
-
-    context 'author' do
-      it 'not create vote' do
-        expect {
-          post :down, params: {id: user_answer}
-        }.to_not change(Vote, :count)
-      end
-    end
-
-    context 'not author' do
-      it 'create negative vote' do
-        expect {
-          post :down, params: {id: answer}
-        }.to change(answer.votes.negative, :count).by(1)
-      end
-    end
-  end
-
-  describe 'POST #cancel_vote' do
-    before { login(user) }
-    before do
-      answer.create_negative_vote(user.id)
-    end
-
-    it 'delete vote' do
-      expect {
-        post :cancel_vote, params: {id: answer}
-      }.to change(answer.votes.negative, :count).by(-1)
     end
   end
 end

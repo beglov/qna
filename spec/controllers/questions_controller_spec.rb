@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+  it_behaves_like 'voted'
+
   let(:user) { create(:user) }
   let(:user_question) { create(:question, user: user) }
   let(:question) { create(:question) }
@@ -148,59 +150,6 @@ RSpec.describe QuestionsController, type: :controller do
         delete :destroy, params: {id: question}
         expect(response).to redirect_to questions_path
       end
-    end
-  end
-
-  describe 'POST #up' do
-    before { login(user) }
-
-    context 'author' do
-      it 'not create vote' do
-        expect {
-          post :up, params: {id: user_question}
-        }.to_not change(Vote, :count)
-      end
-    end
-
-    context 'not author' do
-      it 'create positive vote' do
-        expect {
-          post :up, params: {id: question}
-        }.to change(question.votes.positive, :count).by(1)
-      end
-    end
-  end
-
-  describe 'POST #down' do
-    before { login(user) }
-
-    context 'author' do
-      it 'not create vote' do
-        expect {
-          post :down, params: {id: user_question}
-        }.to_not change(Vote, :count)
-      end
-    end
-
-    context 'not author' do
-      it 'create negative vote' do
-        expect {
-          post :down, params: {id: question}
-        }.to change(question.votes.negative, :count).by(1)
-      end
-    end
-  end
-
-  describe 'POST #cancel_vote' do
-    before { login(user) }
-    before do
-      question.create_negative_vote(user.id)
-    end
-
-    it 'delete vote' do
-      expect {
-        post :cancel_vote, params: {id: question}
-      }.to change(question.votes.negative, :count).by(-1)
     end
   end
 end
