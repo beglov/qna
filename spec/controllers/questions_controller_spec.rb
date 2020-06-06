@@ -194,7 +194,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'POST #cancel_vote' do
     before { login(user) }
     before do
-      question.votes.create_with(negative: true).find_or_create_by(user_id: user.id)
+      question.create_negative_vote(user.id)
     end
 
     it 'delete vote' do

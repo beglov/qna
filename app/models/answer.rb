@@ -1,8 +1,9 @@
 class Answer < ApplicationRecord
+  include Votable
+
   belongs_to :user
   belongs_to :question
   has_many :links, as: :linkable, dependent: :delete_all
-  has_many :votes, as: :votable, dependent: :delete_all
 
   has_many_attached :files
 
@@ -16,9 +17,5 @@ class Answer < ApplicationRecord
       question.reward&.update!(user_id: user_id)
       update!(best: true)
     end
-  end
-
-  def rating
-    votes.positive.count - votes.negative.count
   end
 end

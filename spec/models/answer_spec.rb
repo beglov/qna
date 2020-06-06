@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
+  let(:answer) { create(:answer) }
+  let(:question) { create(:question) }
+  let(:user) { create(:user) }
+
   describe 'associations' do
     it { should belong_to(:question) }
     it { should belong_to(:user) }
@@ -19,8 +23,6 @@ RSpec.describe Answer, type: :model do
   end
 
   describe '#select_best!' do
-    let(:user) { create(:user) }
-    let(:question) { create(:question) }
     let!(:reward) { create(:reward, question: question) }
     let(:answer) { create(:answer, question: question, user: user) }
 
@@ -39,6 +41,30 @@ RSpec.describe Answer, type: :model do
       expect(reward.user).to_not eq user
       answer.select_best!
       expect(reward.user).to eq user
+    end
+  end
+
+  describe '#rating' do
+    it 'return rating value' do
+      answer.create_positive_vote(create(:user).id)
+      answer.create_positive_vote(create(:user).id)
+      expect(answer.rating).to eq 2
+    end
+  end
+
+  describe '#create_positive_vote' do
+    it 'create positive vote' do
+      expect {
+        answer.create_positive_vote(user.id)
+      }.to change(answer.votes.positive, :count).by(1)
+    end
+  end
+
+  describe '#create_negative_vote' do
+    it 'create negative vote' do
+      expect {
+        answer.create_negative_vote(user.id)
+      }.to change(answer.votes.negative, :count).by(1)
     end
   end
 end

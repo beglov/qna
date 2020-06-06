@@ -1,6 +1,8 @@
 class QuestionsController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!, except: %i[index show]
-  before_action :load_question, only: %i[show edit update destroy up down cancel_vote]
+  before_action :load_question, only: %i[show edit update destroy]
 
   def index
     @questions = Question.all
@@ -39,27 +41,6 @@ class QuestionsController < ApplicationController
 
     @question.destroy
     redirect_to questions_path, notice: 'Question was successfully deleted.'
-  end
-
-  def up
-    unless current_user.author_of?(@question)
-      @question.votes.create_with(negative: false).find_or_create_by(user_id: current_user.id)
-    end
-
-    render json: {id: @question.id, rating: @question.rating}
-  end
-
-  def down
-    unless current_user.author_of?(@question)
-      @question.votes.create_with(negative: true).find_or_create_by(user_id: current_user.id)
-    end
-
-    render json: {id: @question.id, rating: @question.rating}
-  end
-
-  def cancel_vote
-    @question.votes.find_by(user_id: current_user.id).try(:destroy)
-    render json: {id: @question.id, rating: @question.rating}
   end
 
   private
