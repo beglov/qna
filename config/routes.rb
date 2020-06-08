@@ -3,8 +3,16 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :questions do
-    resources :answers, shallow: true do
+  concern :votable do
+    member do
+      post :down
+      post :up
+      post :cancel_vote
+    end
+  end
+
+  resources :questions, concerns: :votable do
+    resources :answers, shallow: true, concerns: :votable do
       member do
         post :select_best
       end

@@ -1,4 +1,6 @@
 class Question < ApplicationRecord
+  include Votable
+
   belongs_to :user
   has_many :answers, -> { order('best DESC, created_at') }, dependent: :delete_all
   has_many :links, as: :linkable, dependent: :delete_all
