@@ -1,8 +1,8 @@
 class AnswersController < ApplicationController
-  include Voted
-
   before_action :authenticate_user!, except: :show
   before_action :load_answer, only: %i[show edit update destroy select_best]
+
+  include Voted
 
   def show
   end
