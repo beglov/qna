@@ -21,4 +21,6 @@ Rails.application.routes.draw do
   resources :rewards, only: :index
   resources :attachments, only: :destroy
   resources :links, only: :destroy
+
+  mount ActionCable.server => '/cable'
 end

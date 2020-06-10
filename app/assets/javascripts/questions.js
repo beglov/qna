@@ -1,4 +1,6 @@
 $(document).on('turbolinks:load', function () {
+    const questionsList = $('.questions-list')
+
     $('#question').on('click', '.edit-question-link', function (event) {
         event.preventDefault();
         $(this).hide();
@@ -20,5 +22,14 @@ $(document).on('turbolinks:load', function () {
         $(`#question .down-question-link`).show();
         $(`#question .cancel-vote-question-link`).hide();
         $(`#question .rating`).html(question.rating);
+    })
+
+    App.cable.subscriptions.create('QuestionsChannel', {
+        connected: function () {
+            this.perform("follow")
+        },
+        received: function (data) {
+            questionsList.append(data)
+        }
     })
 })
