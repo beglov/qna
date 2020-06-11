@@ -1,6 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: :show
   before_action :load_answer, only: %i[show edit update destroy select_best]
+  after_action :publish_answer, only: :create
 
   include Voted
 
@@ -35,6 +36,15 @@ class AnswersController < ApplicationController
 
   def load_answer
     @answer = Answer.with_attached_files.find(params[:id])
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+
+    ActionCable.server.broadcast(
+      "question_#{@answer.question_id}",
+      ApplicationController.render(json: @answer.attributes.merge(rating: @answer.rating))
+    )
   end
 
   def answer_params
