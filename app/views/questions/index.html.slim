@@ -1,7 +1,13 @@
-h1 Questions list
+h1 Questions
 
-.questions-list
-  - @questions.each do |question|
-    p= link_to question.title, question
+table.questions.table.table-striped
+  thead.thead-light
+    tr
+      th scope="col" Question
+  tbody
+    - @questions.each do |question|
+      tr
+        td scope="row"
+          = link_to question.title, question
 
 p= link_to 'Ask question', new_question_path
