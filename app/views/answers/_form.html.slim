@@ -2,11 +2,12 @@
   div id=answer_errors_div_id(answer)
     = render 'shared/short_errors', resource: answer
 
-  p= f.label :body, answer.new_record? ? 'New answer:' : 'Edit Answer'
-  p= f.text_area :body
-  p
-    = f.label :files
-    = f.file_field :files, multiple: true, direct_upload: true
+  .form-group
+    p= f.text_area :body, placeholder: 'New answer', class: 'form-control'
+
+  .custom-file
+    = f.label :files, class: 'custom-file-label'
+    = f.file_field :files, multiple: true, direct_upload: true, class: 'custom-file-input'
 
   .answer-links
     = f.fields_for :links do |link|
@@ -14,4 +15,4 @@
     p.links
       = link_to_add_association 'add link', f, :links, partial: 'links/link_fields'
 
-  p= f.submit answer.new_record? ? 'Reply' : 'Save'
+  = f.submit(answer.new_record? ? 'Reply' : 'Save', class: 'btn btn-secondary')

@@ -47,7 +47,7 @@ feature 'User can edit his question', %q(
 
         scenario 'and attached files' do
           within '#question' do
-            attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+            attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
             click_on 'Update'
 
             expect(page).to have_link 'rails_helper.rb'

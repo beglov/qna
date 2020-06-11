@@ -4,5 +4,6 @@
   = render @question.answers.reject(&:new_record?)
 
 - if user_signed_in?
-  #new-answer
-    = render 'answers/form', answer: @answer
+  .card.mt-3#new-answer
+    .card-body
+      = render 'answers/form', answer: @answer

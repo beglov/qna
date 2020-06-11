@@ -1,19 +1,16 @@
-- if current_user
-  p
+.buttons
+  - if current_user
     - if current_user.author_of?(question)
-      = link_to('Delete question', question_path(question), method: :delete, data: {confirm: 'Are you sure?'})
-      = ' | '
-      = link_to('Edit question', '#', class: 'edit-question-link', data: {question_id: question.id})
+      = render 'questions/form', question: question
+
+      = link_to('Delete question', question_path(question), method: :delete, class: 'card-link',
+              data: {confirm: 'Are you sure?'})
+      = link_to('Edit question', '#', class: 'card-link edit-question-link', data: {question_id: question.id})
 
     - unless current_user.author_of?(question)
-      = " | "
       = link_to('Down!', down_question_path(question), method: :post, remote: true,
-              class: "down-question-link #{current_user.voted?(question) ? 'hidden' : ''}")
-      = " | "
+              class: "card-link down-question-link #{current_user.voted?(question) ? 'hidden' : ''}")
       = link_to('Up!', up_question_path(question), method: :post, remote: true,
-              class: "up-question-link #{current_user.voted?(question) ? 'hidden' : ''}")
-      = " | "
+              class: "card-link up-question-link #{current_user.voted?(question) ? 'hidden' : ''}")
       = link_to('Cancel vote', cancel_vote_question_path(question), method: :post, remote: true,
-              class: "cancel-vote-question-link #{current_user.voted?(question) ? '' : 'hidden'}")
-
-  = render 'questions/form', question: question
+              class: "card-link cancel-vote-question-link #{current_user.voted?(question) ? '' : 'hidden'}")

@@ -30,7 +30,7 @@ feature 'User can give an answer', %q(
       end
 
       scenario 'and attached files' do
-        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"], make_visible: true
         click_on 'Reply'
 
         within '.answers' do

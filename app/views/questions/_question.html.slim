@@ -1,17 +1,18 @@
-#question data-question-id=@question.id
-  h1= @question.title
-  p
-    = "Rating: "
-    span.rating= @question.rating
-  p= @question.body
+.card#question data-question-id=@question.id
+  .card-body
+    h5.card-title= @question.title
+    p.card-text
+      strong= "Rating: "
+      span.rating= @question.rating
+    p.card-text= @question.body
 
-  - if @question.files.attached?
-    = render partial: "attachments/attachment", collection: @question.files
+    - if @question.files.attached?
+      = render partial: "attachments/attachment", collection: @question.files
 
-  - if @question.reward
-    = render @question.reward
+    - if @question.reward
+      = render @question.reward
 
-  - if @question.links.present?
-    = render 'links/index', resource: @question
+    - if @question.links.present?
+      = render 'links/index', resource: @question
 
-  = render 'questions/buttons', question: @question
+    = render 'questions/buttons', question: @question

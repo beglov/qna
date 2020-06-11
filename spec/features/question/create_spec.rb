@@ -27,7 +27,7 @@ feature 'User can create question' do
       end
 
       scenario 'and attached files' do
-        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Ask'
 
         expect(page).to have_link 'rails_helper.rb'

@@ -34,7 +34,7 @@ feature 'User can edit his answer', %q(
       describe 'with valid fields' do
         background do
           within "#answer-#{answer.id}" do
-            fill_in 'Answer', with: 'edited answer'
+            fill_in 'answer[body]', with: 'edited answer'
           end
         end
 
@@ -50,7 +50,7 @@ feature 'User can edit his answer', %q(
 
         scenario 'and attached files' do
           within "#answer-#{answer.id}" do
-            attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+            attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"], make_visible: true
             click_on 'Save'
 
             expect(page).to have_link 'rails_helper.rb'
@@ -81,7 +81,7 @@ feature 'User can edit his answer', %q(
 
       scenario 'with errors' do
         within "#answer-#{answer.id}" do
-          fill_in 'Answer', with: ''
+          fill_in 'answer[body]', with: ''
           click_on 'Save'
 
           expect(page).to have_content answer.body
