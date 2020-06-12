@@ -15,3 +15,6 @@
       = render 'links/index', resource: answer
 
     = render 'answers/buttons', answer: answer
+
+    ul.comments.list-group.list-group-flush
+      = render answer.comments.order(:created_at)

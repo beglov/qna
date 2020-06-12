@@ -1,5 +1,5 @@
 $(document).on('turbolinks:load', function () {
-    const $question = $('#question')
+    const $question = $('.question')
     const questionsList = $('.questions')
 
     $question.on('click', '.edit-question-link', function (event) {
@@ -12,17 +12,17 @@ $(document).on('turbolinks:load', function () {
     $question.on('ajax:success', '.up-question-link, .down-question-link', function (e) {
         var question = e.detail[0];
 
-        $(`#question .up-question-link`).hide();
-        $(`#question .down-question-link`).hide();
-        $(`#question .cancel-vote-question-link`).show();
-        $(`#question .rating`).html(question.rating);
+        $(`.question .up-question-link`).hide();
+        $(`.question .down-question-link`).hide();
+        $(`.question .cancel-vote-question-link`).show();
+        $(`.question .rating`).html(question.rating);
     }).on('ajax:success', '.cancel-vote-question-link', function (e) {
         var question = e.detail[0];
 
-        $(`#question .up-question-link`).show();
-        $(`#question .down-question-link`).show();
-        $(`#question .cancel-vote-question-link`).hide();
-        $(`#question .rating`).html(question.rating);
+        $(`.question .up-question-link`).show();
+        $(`.question .down-question-link`).show();
+        $(`.question .cancel-vote-question-link`).hide();
+        $(`.question .rating`).html(question.rating);
     })
 
     if ($question.length) {

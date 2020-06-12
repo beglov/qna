@@ -22,7 +22,7 @@ feature 'User can delete links from question', %(
     scenario "as question's author can delete links", js: true do
       visit question_path(question)
 
-      within '#question' do
+      within "#question-#{question.id}" do
         expect(page).to have_link 'Test link', href: 'http://foo.com'
         accept_confirm do
           click_on 'Delete link'

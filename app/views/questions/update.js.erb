@@ -2,7 +2,7 @@
   window.location.reload(false); // иначе не подгружается вставляемый в партиале answer script
 <% else %>
   <% if @question.errors.blank? %>
-    $('#question').html('<%= j render @question %>');
+    $('#question-<%= @question.id %>').html('<%= j render @question %>');
   <% else %>
     $('#question-errors').html('<%= render 'shared/errors', resource: @question %>');
   <% end %>

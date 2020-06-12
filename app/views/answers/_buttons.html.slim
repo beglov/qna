@@ -17,3 +17,7 @@
               class: "card-link up-answer-link #{current_user.voted?(answer) ? 'hidden' : ''}")
       = link_to('Cancel vote', cancel_vote_answer_path(answer), method: :post, remote: true,
               class: "card-link cancel-vote-answer-link #{current_user.voted?(answer) ? '' : 'hidden'}")
+
+    = link_to('Add comment', '#',
+            class: 'card-link add-comment-link',
+            data: {url: comments_path(id: answer, commentable: 'answers')})

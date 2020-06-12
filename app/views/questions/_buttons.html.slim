@@ -17,5 +17,4 @@
 
     = link_to('Add comment', '#',
             class: 'card-link add-comment-link',
-            data: {toggle: 'modal', target: '#addCommentModal'})
-    = render 'add_comment_modal'
+            data: {url: comments_path(id: question, commentable: 'questions')})
