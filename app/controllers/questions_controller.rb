@@ -57,7 +57,7 @@ class QuestionsController < ApplicationController
       'questions',
       ApplicationController.render(
         partial: 'questions/index_question',
-        locals: {question: @question},
+        locals: {question: @question}
       )
     )
   end

@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ
 feature 'User can create question' do
   given(:user) { create(:user) }
 
@@ -84,4 +83,3 @@ feature 'User can create question' do
     end
   end
 end
-# rubocop:enable Style/RedundantPercentQ
