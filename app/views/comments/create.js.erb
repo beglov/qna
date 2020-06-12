@@ -1,0 +1,6 @@
+<% if @comment.persisted? %>
+  $('.comments').append('<%= j render @comment %>');
+  $('#addCommentModal').modal('hide')
+<% else %>
+  $('#addCommentModal .errors').html('<%= render 'shared/errors', resource: @comment %>');
+<% end %>

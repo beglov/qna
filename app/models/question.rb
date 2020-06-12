@@ -1,9 +1,10 @@
 class Question < ApplicationRecord
+  include Authorable
   include Votable
+  include Linkable
+  include Commentable
 
-  belongs_to :user
   has_many :answers, -> { order('best DESC, created_at') }, dependent: :delete_all
-  has_many :links, as: :linkable, dependent: :delete_all
   has_one :reward, dependent: :destroy
 
   has_many_attached :files

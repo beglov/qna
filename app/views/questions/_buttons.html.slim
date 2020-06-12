@@ -14,3 +14,8 @@
               class: "card-link up-question-link #{current_user.voted?(question) ? 'hidden' : ''}")
       = link_to('Cancel vote', cancel_vote_question_path(question), method: :post, remote: true,
               class: "card-link cancel-vote-question-link #{current_user.voted?(question) ? '' : 'hidden'}")
+
+    = link_to('Add comment', '#',
+            class: 'card-link add-comment-link',
+            data: {toggle: 'modal', target: '#addCommentModal'})
+    = render 'add_comment_modal'

@@ -1,9 +1,10 @@
 class Answer < ApplicationRecord
+  include Authorable
   include Votable
+  include Linkable
+  include Commentable
 
-  belongs_to :user
   belongs_to :question
-  has_many :links, as: :linkable, dependent: :delete_all
 
   has_many_attached :files
 
