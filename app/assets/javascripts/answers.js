@@ -23,9 +23,11 @@ $(document).on('turbolinks:load', function () {
     })
 
     if ($('.answer').length) {
+        const questionId = $('.question').data('questionId')
+
         App.cable.subscriptions.create('CommentsChannel', {
             connected: function () {
-                this.perform("follow_answers_comments")
+                this.perform("follow_answers_comments", {question_id: questionId})
             },
             received: function (data) {
                 data = JSON.parse(data)

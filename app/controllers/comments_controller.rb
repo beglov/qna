@@ -24,7 +24,7 @@ class CommentsController < ApplicationController
     return if @commentable.errors.any?
 
     ActionCable.server.broadcast(
-      "#{params[:commentable]}_comments",
+      @commentable.is_a?(Question) ? "question_#{@commentable.id}_comments" : "question_#{@commentable.question_id}_answers_comments",
       ApplicationController.render(json: @comment)
     )
   end

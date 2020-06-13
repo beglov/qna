@@ -38,7 +38,7 @@ $(document).on('turbolinks:load', function () {
         })
         App.cable.subscriptions.create('CommentsChannel', {
             connected: function () {
-                this.perform("follow_questions_comments")
+                this.perform("follow_questions_comments", {question_id: questionId})
             },
             received: function (data) {
                 data = JSON.parse(data)

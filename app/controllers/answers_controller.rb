@@ -42,7 +42,7 @@ class AnswersController < ApplicationController
     return if @answer.errors.any?
 
     ActionCable.server.broadcast(
-      "question_#{@answer.question_id}",
+      "question_#{@answer.question_id}_answers",
       ApplicationController.render(json: @answer.attributes.merge(rating: @answer.rating))
     )
   end
