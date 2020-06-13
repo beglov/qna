@@ -1,12 +1,13 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
+  before_action :set_gon_user_id, only: %i[index show]
   before_action :load_question, only: %i[show edit update destroy]
   after_action :publish_question, only: :create
 
   include Voted
 
   def index
-    @questions = Question.all
+    @questions = Question.order(:created_at)
   end
 
   def show
@@ -55,11 +56,12 @@ class QuestionsController < ApplicationController
 
     ActionCable.server.broadcast(
       'questions',
-      ApplicationController.render(
-        partial: 'questions/index_question',
-        locals: {question: @question}
-      )
+      ApplicationController.render(json: @question)
     )
+  end
+
+  def set_gon_user_id
+    gon.user_id = current_user&.id
   end
 
   def question_params

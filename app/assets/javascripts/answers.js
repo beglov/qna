@@ -31,7 +31,10 @@ $(document).on('turbolinks:load', function () {
             },
             received: function (data) {
                 data = JSON.parse(data)
-                $(`#answer-${data.commentable_id} .comments`).append(`<li class="list-group-item" id="comment-${data.id}">${data.body}</li>`)
+
+                if (gon.user_id !== data.user_id){
+                    $(`#answer-${data.commentable_id} .comments`).append(JST["templates/comment"](data))
+                }
             }
         })
     }
