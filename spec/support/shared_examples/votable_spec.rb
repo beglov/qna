@@ -1,9 +1,6 @@
 require 'rails_helper'
 
 shared_examples_for 'votable' do
-  let(:model) { described_class }
-  let(:votable) { create(model.to_s.underscore.to_sym) }
-
   describe '#rating' do
     it 'return rating value' do
       votable.create_positive_vote(create(:user).id)

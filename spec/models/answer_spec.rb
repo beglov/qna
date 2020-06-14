@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
-  it_behaves_like 'votable'
-
   let(:answer) { create(:answer) }
   let(:question) { create(:question) }
   let(:user) { create(:user) }
@@ -45,5 +43,9 @@ RSpec.describe Answer, type: :model do
       answer.select_best!
       expect(reward.user).to eq user
     end
+  end
+
+  it_behaves_like 'votable' do
+    let(:votable) { create(:answer) }
   end
 end

@@ -3,10 +3,6 @@ require 'rails_helper'
 shared_examples_for 'voted' do
   before { login(user) }
 
-  let(:model) { described_class.name.gsub('Controller', '').singularize.constantize }
-  let(:votable) { create(model.to_s.underscore.to_sym) }
-  let(:user_votable) { create(model.to_s.underscore.to_sym, user: user) }
-
   describe 'POST #up' do
     context 'author' do
       it 'not create vote' do

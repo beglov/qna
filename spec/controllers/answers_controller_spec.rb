@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  it_behaves_like 'voted'
-
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let!(:user_answer) { create(:answer, user: user, question: question) }
@@ -170,5 +168,10 @@ RSpec.describe AnswersController, type: :controller do
         expect(response).to render_template :select_best
       end
     end
+  end
+
+  it_behaves_like 'voted' do
+    let(:votable) { create(:answer) }
+    let(:user_votable) { create(:answer, user: user) }
   end
 end

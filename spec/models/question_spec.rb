@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do
-  it_behaves_like 'votable'
-
   let(:question) { create(:question) }
   let(:user) { create(:user) }
 
@@ -25,5 +23,9 @@ RSpec.describe Question, type: :model do
 
   it 'have many attached files' do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+  end
+
+  it_behaves_like 'votable' do
+    let(:votable) { create(:question) }
   end
 end

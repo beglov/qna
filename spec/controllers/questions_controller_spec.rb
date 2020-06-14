@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  it_behaves_like 'voted'
-
   let(:user) { create(:user) }
   let(:user_question) { create(:question, user: user) }
   let(:question) { create(:question) }
@@ -151,5 +149,10 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to redirect_to questions_path
       end
     end
+  end
+
+  it_behaves_like 'voted' do
+    let(:votable) { create(:question) }
+    let(:user_votable) { create(:question, user: user) }
   end
 end
