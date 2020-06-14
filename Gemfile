@@ -18,6 +18,8 @@ gem 'cocoon'
 gem 'skim'
 gem 'gon'
 gem 'bootstrap', '~> 4.5.0'
+gem 'omniauth'
+gem 'omniauth-github'
 
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.1.0', require: false
