@@ -17,7 +17,7 @@ feature 'User can vote for the question' do
     scenario 'can vote up for the question they like', js: true do
       visit question_path(question)
 
-      within '#question' do
+      within "#question-#{question.id}" do
         click_on 'Up!'
         expect(page).to_not have_link 'Up!'
         expect(page).to_not have_link 'Down!'
@@ -29,7 +29,7 @@ feature 'User can vote for the question' do
     scenario 'can vote down for the question they like', js: true do
       visit question_path(question)
 
-      within '#question' do
+      within "#question-#{question.id}" do
         click_on 'Down!'
         expect(page).to_not have_link 'Up!'
         expect(page).to_not have_link 'Down!'
@@ -41,7 +41,7 @@ feature 'User can vote for the question' do
     scenario 'can cancel their vote', js: true do
       visit question_path(question)
 
-      within '#question' do
+      within "#question-#{question.id}" do
         click_on 'Up!'
         expect(page).to_not have_link 'Up!'
         expect(page).to have_content 'Rating: 1'
@@ -54,7 +54,7 @@ feature 'User can vote for the question' do
     scenario 'tries to vote for their question' do
       visit question_path(user_question)
 
-      within '#question' do
+      within "#question-#{user_question.id}" do
         expect(page).to_not have_link 'Up!'
         expect(page).to_not have_link 'Down!'
       end

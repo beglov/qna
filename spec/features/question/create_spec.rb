@@ -1,11 +1,6 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ
-feature 'Пользователь может создать вопрос', %q(
-  Для того чтобы получить ответ от сообщества
-  Аутентифицированный пользователь
-  Может задать вопрос
-) do
+feature 'User can create question' do
   given(:user) { create(:user) }
 
   describe 'Authenticated user' do
@@ -31,7 +26,7 @@ feature 'Пользователь может создать вопрос', %q(
       end
 
       scenario 'and attached files' do
-        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Ask'
 
         expect(page).to have_link 'rails_helper.rb'
@@ -60,5 +55,31 @@ feature 'Пользователь может создать вопрос', %q(
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
+
+  scenario "question appears on another user's page", js: true do
+    Capybara.using_session('user') do
+      login(user)
+      visit questions_path
+    end
+
+    Capybara.using_session('guest') do
+      visit questions_path
+    end
+
+    Capybara.using_session('user') do
+      click_on 'Ask question'
+
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'text text text'
+      click_on 'Ask'
+
+      expect(page).to have_content 'Your question successfully created.'
+      expect(page).to have_content 'Test question'
+      expect(page).to have_content 'text text text'
+    end
+
+    Capybara.using_session('guest') do
+      expect(page).to have_content 'Test question'
+    end
+  end
 end
-# rubocop:enable Style/RedundantPercentQ

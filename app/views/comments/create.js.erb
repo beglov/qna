@@ -1,0 +1,7 @@
+<% if @comment.persisted? %>
+  $('<%= "##{params[:commentable].singularize}-#{params[:id]}" %> .comments').append('<%= j render @comment %>');
+  $('#addCommentModal').modal('hide')
+  $('#addCommentModal #comment_body').val('');
+<% else %>
+  $('#addCommentModal .errors').html('<%= render 'shared/errors', resource: @comment %>');
+<% end %>

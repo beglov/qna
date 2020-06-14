@@ -15,6 +15,8 @@ gem 'slim-rails'
 gem 'devise'
 gem 'jquery-rails'
 gem 'cocoon'
+gem 'skim'
+gem 'gon'
 gem 'bootstrap', '~> 4.5.0'
 
 gem 'aws-sdk-s3', require: false

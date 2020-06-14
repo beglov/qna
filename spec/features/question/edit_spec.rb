@@ -34,7 +34,7 @@ feature 'User can edit his question', %q(
         end
 
         scenario '' do
-          within '#question' do
+          within "#question-#{question.id}" do
             click_on 'Update'
 
             expect(page).to_not have_content question.title
@@ -46,8 +46,8 @@ feature 'User can edit his question', %q(
         end
 
         scenario 'and attached files' do
-          within '#question' do
-            attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+          within "#question-#{question.id}" do
+            attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
             click_on 'Update'
 
             expect(page).to have_link 'rails_helper.rb'
@@ -56,7 +56,7 @@ feature 'User can edit his question', %q(
         end
 
         scenario 'can adds links' do
-          within '#question' do
+          within "#question-#{question.id}" do
             click_on 'add link'
             within '.nested-fields:last-of-type' do
               fill_in 'Link name', with: 'Google'
@@ -77,7 +77,7 @@ feature 'User can edit his question', %q(
       end
 
       scenario 'with errors' do
-        within '#question' do
+        within "#question-#{question.id}" do
           fill_in 'Title', with: ''
           fill_in 'Body', with: ''
           click_on 'Update'

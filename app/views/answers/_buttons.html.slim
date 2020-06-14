@@ -1,23 +1,23 @@
-- if current_user
-  p
+.buttons
+  - if current_user
     - if current_user.author_of?(answer)
+      = render 'answers/form', answer: answer
+
       = link_to('Delete answer', answer_path(answer), method: :delete, remote: true, data: {confirm: 'Are you sure?'},
-              class: 'btn btn-danger')
+              class: 'card-link')
       - unless answer.best?
-        = " | "
-        = link_to('Select best!', select_best_answer_path(answer), class: 'best-answer-link', method: :post, remote: true)
-      = " | "
-      = link_to('Edit answer', '#', class: 'edit-answer-link', data: {answer_id: answer.id})
+        = link_to('Select best!', select_best_answer_path(answer), class: 'card-link best-answer-link',
+                method: :post, remote: true)
+      = link_to('Edit answer', '#', class: 'card-link edit-answer-link', data: {answer_id: answer.id})
 
     - unless current_user.author_of?(answer)
-      = " | "
       = link_to('Down!', down_answer_path(answer), method: :post, remote: true,
-              class: "down-answer-link #{current_user.voted?(answer) ? 'hidden' : ''}")
-      = " | "
+              class: "card-link down-answer-link #{current_user.voted?(answer) ? 'hidden' : ''}")
       = link_to('Up!', up_answer_path(answer), method: :post, remote: true,
-              class: "up-answer-link #{current_user.voted?(answer) ? 'hidden' : ''}")
-      = " | "
+              class: "card-link up-answer-link #{current_user.voted?(answer) ? 'hidden' : ''}")
       = link_to('Cancel vote', cancel_vote_answer_path(answer), method: :post, remote: true,
-              class: "cancel-vote-answer-link #{current_user.voted?(answer) ? '' : 'hidden'}")
+              class: "card-link cancel-vote-answer-link #{current_user.voted?(answer) ? '' : 'hidden'}")
 
-  = render 'answers/form', answer: answer
+    = link_to('Add comment', '#',
+            class: 'card-link add-comment-link',
+            data: {url: comments_path(id: answer, commentable: 'answers')})

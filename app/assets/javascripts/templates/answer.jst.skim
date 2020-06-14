@@ -1,0 +1,9 @@
+.card.answer.mt-3 id="answer-#{@id}"
+  .card-body
+    p.card-text
+      strong= "Rating: "
+      span.rating= @rating
+
+    p.card-text= @body
+
+    ul.comments.list-group.list-group-flush

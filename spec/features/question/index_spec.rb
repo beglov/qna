@@ -11,7 +11,7 @@ feature 'Пользователь может просматривать спис
   scenario 'Пользователь просматривает список вопросов' do
     visit questions_path
 
-    expect(page).to have_content 'Questions list'
+    expect(page).to have_content 'Questions'
     questions.each { |question| expect(page).to have_content question.title }
   end
 end

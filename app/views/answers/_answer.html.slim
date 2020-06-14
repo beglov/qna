@@ -1,16 +1,20 @@
-div id="answer-#{answer.id}"
-  - if answer.best?
-    p class='best-answer-title' This is best answer!
+.card.answer.mt-3 id="answer-#{answer.id}"
+  .card-body
+    - if answer.best?
+      p.best-answer-title.card-text This is best answer!
 
-  p
-    = "Rating: "
-    span.rating= answer.rating
-  p= answer.body
+    p.card-text
+      strong= "Rating: "
+      span.rating= answer.rating
+    p.card-text= answer.body
 
-  - if answer.files.attached?
-    = render partial: "attachments/attachment", collection: answer.files
+    - if answer.files.attached?
+      = render partial: "attachments/attachment", collection: answer.files
 
-  - if answer.links.present?
-    = render 'links/index', resource: answer
+    - if answer.links.present?
+      = render 'links/index', resource: answer
 
-  = render 'answers/buttons', answer: answer
+    = render 'answers/buttons', answer: answer
+
+    ul.comments.list-group.list-group-flush
+      = render answer.comments.order(:created_at)
