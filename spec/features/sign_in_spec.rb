@@ -24,5 +24,16 @@ feature 'Пользователь может войти в систему', %q(
 
     expect(page).to have_content 'Invalid Email or password.'
   end
+
+  scenario "can sign in user with Github account" do
+    click_on "Sign in with GitHub"
+    expect(page).to have_content 'Successfully authenticated from Github account.'
+  end
+
+  scenario "can handle authentication error" do
+    OmniAuth.config.mock_auth[:github] = :invalid_credentials
+    click_on "Sign in with GitHub"
+    expect(page).to have_content 'Invalid credentials'
+  end
 end
 # rubocop:enable Style/RedundantPercentQ
