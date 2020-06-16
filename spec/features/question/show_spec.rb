@@ -1,26 +1,14 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ
-feature 'Пользователь может просматривать вопрос и ответы к нему', %q(
-  Чтобы получить ответы
-  Любой пользователь
-  Может просматривать вопрос и ответы к нему
-) do
-  given(:user) { create(:user) }
+feature 'User can show question and his answers' do
   given(:question) { create(:question) }
+  given(:answer) { create(:answer, question: question) }
 
-  background do
-    question.answers.create!(body: 'answer 1', user_id: user.id)
-    question.answers.create!(body: 'answer 2', user_id: user.id)
-  end
-
-  scenario 'Пользователь просматривает вопрос и ответы к нему' do
+  scenario 'User viewing question and his answers' do
     visit question_path(question)
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body
-    expect(page).to have_content 'answer 1'
-    expect(page).to have_content 'answer 2'
+    expect(page).to have_content answer.body
   end
 end
-# rubocop:enable Style/RedundantPercentQ

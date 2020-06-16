@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 # rubocop:disable Style/RedundantPercentQ
-feature 'Пользователь может выйти из системы', %q(
-  Чтобы завершить сессию
-  Аутентифицированный пользователь
-  Должен выйти из системы
+feature 'User can log out', %q(
+  In order to end session
+  As an authenticated user
+  I'd like to be able to log out
 ) do
   given(:user) { create(:user) }
 
-  scenario 'Аутентифицированный пользователь выходит из системы' do
+  scenario 'Authenticated user tries to log out' do
     login(user)
     click_on 'Log out'
     expect(page).to have_content 'Signed out successfully.'

@@ -8,7 +8,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable,
-         :omniauthable, omniauth_providers: [:github]
+         :omniauthable, omniauth_providers: %i[github vkontakte]
 
   def self.find_for_oauth(auth)
     Services::FindForOauth.new(auth).call
@@ -23,6 +23,6 @@ class User < ApplicationRecord
   end
 
   def create_authorization(auth)
-    self.authorizations.create(provider: auth.provider, uid: auth.uid.to_s)
+    authorizations.create(provider: auth.provider, uid: auth.uid.to_s)
   end
 end

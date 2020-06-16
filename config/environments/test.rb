@@ -50,6 +50,12 @@ Rails.application.configure do
     {
       :provider => 'github',
       :uid => '123456',
-      :info => {:email => 'new@user.com'}
+      :info => {:email => 'new_github@user.com'}
+    })
+  OmniAuth.config.mock_auth[:vkontakte] = OmniAuth::AuthHash.new(
+    {
+      :provider => 'vkontakte',
+      :uid => '123456',
+      :info => {:email => 'new_vkontakte@user.com'}
     })
 end
