@@ -7,14 +7,23 @@ feature 'Пользователь может войти в систему', %q(
   Должен войти в систему
 ) do
   given(:user) { create(:user) }
+  given(:unconfirmed_user) { create(:user, confirmed_at: nil) }
   background { visit new_user_session_path }
 
-  scenario 'Зарегистрированный пользователь пытается войти в систему' do
+  scenario 'Зарегистрированный пользователь пытается войти в систему с подтвержденной почтой' do
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
     click_on 'Log in'
 
     expect(page).to have_content 'Signed in successfully.'
+  end
+
+  scenario 'Зарегистрированный пользователь пытается войти в систему с НЕ подтвержденной почтой' do
+    fill_in 'Email', with: unconfirmed_user.email
+    fill_in 'Password', with: unconfirmed_user.password
+    click_on 'Log in'
+
+    expect(page).to have_content 'You have to confirm your email address before continuing.'
   end
 
   scenario 'Не зарегистрированный пользователь пытается войти в систему' do

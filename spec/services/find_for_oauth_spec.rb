@@ -52,6 +52,10 @@ RSpec.describe Services::FindForOauth do
         expect(user.email).to eq auth.info[:email]
       end
 
+      it 'confirmed_at is true if provider return email' do
+        expect(subject.call.confirmed_at).to be
+      end
+
       it 'creates authorization for user' do
         user = subject.call
         expect(user.authorizations).to_not be_empty
