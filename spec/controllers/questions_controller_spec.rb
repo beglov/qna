@@ -45,10 +45,10 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'GET #edit' do
     before { login(user) }
-    before { get :edit, params: {id: question} }
+    before { get :edit, params: {id: user_question} }
 
     it 'assigns requested question to @question' do
-      expect(assigns(:question)).to eq question
+      expect(assigns(:question)).to eq user_question
     end
     it 'renders edit view' do
       expect(response).to render_template :edit
@@ -92,28 +92,28 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with valid attributes' do
       it 'assigns requested question to @question' do
-        patch :update, params: {id: question, question: {title: 'new title', body: 'new body'}, format: :js}
-        expect(assigns(:question)).to eq question
+        patch :update, params: {id: user_question, question: {title: 'new title', body: 'new body'}, format: :js}
+        expect(assigns(:question)).to eq user_question
       end
       it 'changes question attributes' do
-        patch :update, params: {id: question, question: {title: 'new title', body: 'new body'}, format: :js}
-        question.reload
-        expect(question.title).to eq 'new title'
-        expect(question.body).to eq 'new body'
+        patch :update, params: {id: user_question, question: {title: 'new title', body: 'new body'}, format: :js}
+        user_question.reload
+        expect(user_question.title).to eq 'new title'
+        expect(user_question.body).to eq 'new body'
       end
       it 'render update view' do
-        patch :update, params: {id: question, question: {title: 'new title', body: 'new body'}, format: :js}
+        patch :update, params: {id: user_question, question: {title: 'new title', body: 'new body'}, format: :js}
         expect(response).to render_template :update
       end
     end
 
     context 'with invalid attributes' do
-      before { patch :update, params: {id: question, question: attributes_for(:question, :invalid), format: :js} }
+      before { patch :update, params: {id: user_question, question: attributes_for(:question, :invalid), format: :js} }
 
       it 'does not change question' do
-        question.reload
-        expect(question.title).to_not eq nil
-        expect(question.body).to eq 'MyText'
+        user_question.reload
+        expect(user_question.title).to_not eq nil
+        expect(user_question.body).to eq 'MyText'
       end
       it 'render update view' do
         expect(response).to render_template :update
@@ -144,9 +144,9 @@ RSpec.describe QuestionsController, type: :controller do
           delete :destroy, params: {id: question}
         }.to_not change(Question, :count)
       end
-      it 'redirects to index' do
+      it 'redirects to root' do
         delete :destroy, params: {id: question}
-        expect(response).to redirect_to questions_path
+        expect(response).to redirect_to root_path
       end
     end
   end

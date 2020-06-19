@@ -3,15 +3,19 @@
     - if current_user.author_of?(question)
       = render 'questions/form', question: question
 
-      = link_to('Delete question', question_path(question), method: :delete, class: 'card-link',
-              data: {confirm: 'Are you sure?'})
-      = link_to('Edit question', '#', class: 'card-link edit-question-link', data: {question_id: question.id})
+      - if can?(:destroy, question)
+        = link_to('Delete question', question_path(question), method: :delete, class: 'card-link',
+                data: {confirm: 'Are you sure?'})
+      - if can?(:update, question)
+        = link_to('Edit question', '#', class: 'card-link edit-question-link', data: {question_id: question.id})
 
-    - unless current_user.author_of?(question)
+    - if can?(:down, question)
       = link_to('Down!', down_question_path(question), method: :post, remote: true,
               class: "card-link down-question-link #{current_user.voted?(question) ? 'hidden' : ''}")
+    - if can?(:up, question)
       = link_to('Up!', up_question_path(question), method: :post, remote: true,
               class: "card-link up-question-link #{current_user.voted?(question) ? 'hidden' : ''}")
+    - if can?(:cancel_vote, question)
       = link_to('Cancel vote', cancel_vote_question_path(question), method: :post, remote: true,
               class: "card-link cancel-vote-question-link #{current_user.voted?(question) ? '' : 'hidden'}")
 
