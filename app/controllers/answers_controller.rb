@@ -45,7 +45,7 @@ class AnswersController < ApplicationController
 
     ActionCable.server.broadcast(
       "question_#{@answer.question_id}_answers",
-      ApplicationController.render(json: @answer.attributes.merge(rating: @answer.rating))
+      AnswerSerializer.new(@answer).to_json,
     )
   end
 

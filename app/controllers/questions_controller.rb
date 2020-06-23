@@ -58,7 +58,7 @@ class QuestionsController < ApplicationController
 
     ActionCable.server.broadcast(
       'questions',
-      ApplicationController.render(json: @question)
+      QuestionSerializer.new(@question).to_json,
     )
   end
 
