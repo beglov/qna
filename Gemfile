@@ -23,6 +23,7 @@ gem 'omniauth-github'
 gem 'omniauth-vkontakte'
 gem 'cancancan'
 gem 'doorkeeper'
+gem 'active_model_serializers', '~> 0.10'
 
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.1.0', require: false
