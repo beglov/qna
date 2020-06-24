@@ -9,9 +9,10 @@ describe 'Questions API', type: :request do
   end
 
   describe 'GET /api/v1/questions' do
+    let(:api_path) { '/api/v1/questions' }
+
     it_behaves_like 'API Authorizable' do
       let(:method) { :get }
-      let(:api_path) { '/api/v1/questions' }
     end
 
     context 'authorized' do
@@ -21,20 +22,15 @@ describe 'Questions API', type: :request do
       let(:question_response) { json['questions'].first }
       let!(:answers) { create_list(:answer, 3, question: question) }
 
-      before { get '/api/v1/questions', params: {access_token: access_token.token}, headers: headers }
+      before { get api_path, params: {access_token: access_token.token}, headers: headers }
 
-      it 'returns 20X status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'successful status'
 
-      it 'return list of questions' do
-        expect(json['questions'].size).to eq 2
-      end
-
-      it 'returns all public fields' do
-        %w[id title body created_at updated_at].each do |attr|
-          expect(question_response[attr]).to eq question.send(attr).as_json
-        end
+      it_behaves_like 'json list' do
+        let(:items_responce) { json['questions'] }
+        let(:count_items) { 2 }
+        let(:public_fields) { %w[id title body created_at updated_at] }
+        let(:resource) { question }
       end
 
       it 'contains user object' do
@@ -46,17 +42,11 @@ describe 'Questions API', type: :request do
       end
 
       describe 'answers' do
-        let(:answer) { answers.first }
-        let(:answer_response) { question_response['answers'].first }
-
-        it 'return list of answers' do
-          expect(question_response['answers'].size).to eq 3
-        end
-
-        it 'returns all public fields' do
-          %w[id body user_id created_at updated_at].each do |attr|
-            expect(answer_response[attr]).to eq answer.send(attr).as_json
-          end
+        it_behaves_like 'json list' do
+          let(:items_responce) { question_response['answers'] }
+          let(:count_items) { 3 }
+          let(:public_fields) { %w[id body user_id created_at updated_at] }
+          let(:resource) { answers.first }
         end
       end
     end
@@ -83,9 +73,7 @@ describe 'Questions API', type: :request do
 
       before { get api_path, params: {access_token: access_token.token}, headers: headers }
 
-      it 'returns 20X status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'successful status'
 
       it 'returns all public fields' do
         %w[id title body created_at updated_at].each do |attr|
@@ -98,16 +86,11 @@ describe 'Questions API', type: :request do
       end
 
       describe 'comments' do
-        let(:comment_response) { question_response['comments'].first }
-
-        it 'return list of comments' do
-          expect(question_response['comments'].size).to eq 3
-        end
-
-        it 'returns all public fields' do
-          %w[id body user_id created_at updated_at].each do |attr|
-            expect(comment_response[attr]).to eq comment.send(attr).as_json
-          end
+        it_behaves_like 'json list' do
+          let(:items_responce) { question_response['comments'] }
+          let(:count_items) { 3 }
+          let(:public_fields) { %w[id body user_id created_at updated_at] }
+          let(:resource) { comment }
         end
       end
 
@@ -120,17 +103,11 @@ describe 'Questions API', type: :request do
       end
 
       describe 'links' do
-        let(:link_response) { question_response['links'].first }
-        let(:link) { links.last }
-
-        it 'return list of links' do
-          expect(question_response['links'].size).to eq 3
-        end
-
-        it 'returns all public fields' do
-          %w[id name url created_at updated_at].each do |attr|
-            expect(link_response[attr]).to eq link.send(attr).as_json
-          end
+        it_behaves_like 'json list' do
+          let(:items_responce) { question_response['links'] }
+          let(:count_items) { 3 }
+          let(:public_fields) { %w[id name url created_at updated_at] }
+          let(:resource) { links.last }
         end
       end
     end
