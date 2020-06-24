@@ -26,7 +26,7 @@ class CommentsController < ApplicationController
 
     ActionCable.server.broadcast(
       @commentable.is_a?(Question) ? "question_#{@commentable.id}_comments" : "question_#{@commentable.question_id}_answers_comments",
-      CommentSerializer.new(@comment).to_json,
+      CommentSerializer.new(@comment).to_json
     )
   end
 end

@@ -30,7 +30,7 @@ describe 'Questions API', type: :request do
         let(:items_responce) { json['questions'] }
         let(:count_items) { 2 }
         let(:public_fields) { %w[id title body created_at updated_at] }
-        let(:resource) { question }
+        let(:resource) { questions.first }
       end
 
       it 'contains user object' do
@@ -105,6 +105,126 @@ describe 'Questions API', type: :request do
           let(:count_items) { 1 }
           let(:public_fields) { %w[id name url created_at updated_at] }
           let(:resource) { links.first }
+        end
+      end
+    end
+  end
+
+  describe 'POST /api/v1/questions' do
+    let(:api_path) { '/api/v1/questions' }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :post }
+    end
+
+    context 'authorized' do
+      let(:user) { create(:user) }
+      let(:access_token) { create(:oauth_access_token, resource_owner_id: user.id) }
+
+      context 'valid parameters' do
+        let(:question_params) do
+          {
+            'title' => 'Question title',
+            'body' => 'Question body',
+          }
+        end
+
+        it 'creates a new question' do
+          expect {
+            post api_path, params: {access_token: access_token.token, question: question_params}.to_json, headers: headers
+          }.to change { user.questions.count }.from(0).to(1)
+
+          expect(response).to have_http_status(:created)
+        end
+
+        it 'returns an question' do
+          post api_path, params: {access_token: access_token.token, question: question_params}.to_json, headers: headers
+          expect(json['question']).to a_hash_including(question_params)
+        end
+      end
+
+      context 'invalid parameters' do
+        let(:question_params) { {'title' => 'Question title'} }
+
+        it 'returns an error' do
+          post api_path, params: {access_token: access_token.token, question: question_params}.to_json, headers: headers
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+    end
+  end
+
+  describe 'PUT /api/v1/questions/:id' do
+    let(:question) { create(:question) }
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :put }
+    end
+
+    context 'authorized' do
+      let(:user) { create(:user) }
+      let(:access_token) { create(:oauth_access_token, resource_owner_id: user.id) }
+      let(:question_params) do
+        {
+          'title' => 'New title',
+          'body' => 'New body',
+        }
+      end
+
+      context 'author' do
+        let(:question) { create(:question, user: user) }
+
+        it 'updates the question' do
+          put api_path, params: {access_token: access_token.token, question: question_params}.to_json, headers: headers
+          expect(json['question']).to a_hash_including(question_params)
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context 'not author' do
+        let(:question) { create(:question) }
+
+        it 'returns an error' do
+          put api_path, params: {access_token: access_token.token, question: question_params}.to_json, headers: headers
+          expect(response).to have_http_status(:forbidden)
+          expect(json['errors']).to match('You are not authorized to access this page')
+        end
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/questions/:id' do
+    let(:question) { create(:question) }
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :delete }
+    end
+
+    context 'authorized' do
+      let(:user) { create(:user) }
+      let(:access_token) { create(:oauth_access_token, resource_owner_id: user.id) }
+
+      context 'author' do
+        let!(:question) { create(:question, user: user) }
+
+        it 'delete the question' do
+          expect {
+            delete api_path, params: {access_token: access_token.token}.to_json, headers: headers
+          }.to change { user.questions.count }.from(1).to(0)
+
+          expect(response).to have_http_status(:no_content)
+        end
+      end
+
+      context 'not author' do
+        let(:question) { create(:question) }
+
+        it 'returns an error' do
+          delete api_path, params: {access_token: access_token.token}.to_json, headers: headers
+          expect(response).to have_http_status(:forbidden)
+          expect(json['errors']).to match('You are not authorized to access this page')
         end
       end
     end

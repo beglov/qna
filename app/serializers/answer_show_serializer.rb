@@ -10,7 +10,7 @@ class AnswerShowSerializer < ActiveModel::Serializer
     object.files.map do |file|
       {
         name: file.filename.to_s,
-        url: rails_blob_path(file, only_path: true)
+        url: rails_blob_path(file, only_path: true),
       }
     end
   end
