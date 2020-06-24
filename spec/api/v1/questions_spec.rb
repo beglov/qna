@@ -133,18 +133,23 @@ describe 'Questions API', type: :request do
           expect {
             post api_path, params: {access_token: access_token.token, question: question_params}.to_json, headers: headers
           }.to change { user.questions.count }.from(0).to(1)
-
-          expect(response).to have_http_status(:created)
         end
 
         it 'returns an question' do
           post api_path, params: {access_token: access_token.token, question: question_params}.to_json, headers: headers
+          expect(response).to have_http_status(:created)
           expect(json['question']).to a_hash_including(question_params)
         end
       end
 
       context 'invalid parameters' do
         let(:question_params) { {'title' => 'Question title'} }
+
+        it "does't creates a new question" do
+          expect {
+            post api_path, params: {access_token: access_token.token, question: question_params}.to_json, headers: headers
+          }.to_not change { user.questions.count }
+        end
 
         it 'returns an error' do
           post api_path, params: {access_token: access_token.token, question: question_params}.to_json, headers: headers
@@ -177,8 +182,8 @@ describe 'Questions API', type: :request do
 
         it 'updates the question' do
           put api_path, params: {access_token: access_token.token, question: question_params}.to_json, headers: headers
-          expect(json['question']).to a_hash_including(question_params)
           expect(response).to have_http_status(:ok)
+          expect(json['question']).to a_hash_including(question_params)
         end
       end
 
@@ -219,7 +224,13 @@ describe 'Questions API', type: :request do
       end
 
       context 'not author' do
-        let(:question) { create(:question) }
+        let!(:question) { create(:question) }
+
+        it "does't delete the question" do
+          expect {
+            delete api_path, params: {access_token: access_token.token}.to_json, headers: headers
+          }.to_not change { user.questions.count }
+        end
 
         it 'returns an error' do
           delete api_path, params: {access_token: access_token.token}.to_json, headers: headers

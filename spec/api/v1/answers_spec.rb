@@ -86,4 +86,134 @@ describe 'Answers API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/questions/:id/answers' do
+    let(:question) { create(:question) }
+    let(:api_path) { "/api/v1/questions/#{question.id}/answers" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :post }
+    end
+
+    context 'authorized' do
+      let(:user) { create(:user) }
+      let(:access_token) { create(:oauth_access_token, resource_owner_id: user.id) }
+
+      context 'valid parameters' do
+        let(:answer_params) do
+          {
+            'body' => 'Answer body',
+          }
+        end
+
+        it 'creates a new answer' do
+          expect {
+            post api_path, params: {access_token: access_token.token, answer: answer_params}.to_json, headers: headers
+          }.to change { user.answers.count }.from(0).to(1)
+        end
+
+        it 'returns an answer' do
+          post api_path, params: {access_token: access_token.token, answer: answer_params}.to_json, headers: headers
+          expect(response).to have_http_status(:created)
+          expect(json['answer']).to a_hash_including(answer_params)
+        end
+      end
+
+      context 'invalid parameters' do
+        let(:answer_params) { {'body' => ''} }
+
+        it "does't creates a new answer" do
+          expect {
+            post api_path, params: {access_token: access_token.token, answer: answer_params}.to_json, headers: headers
+          }.to_not change { user.answers.count }
+        end
+
+        it 'returns an error' do
+          post api_path, params: {access_token: access_token.token, answer: answer_params}.to_json, headers: headers
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+    end
+  end
+
+  describe 'PUT /api/v1/answers/:id' do
+    let(:answer) { create(:answer) }
+    let(:api_path) { "/api/v1/answers/#{answer.id}" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :put }
+    end
+
+    context 'authorized' do
+      let(:user) { create(:user) }
+      let(:access_token) { create(:oauth_access_token, resource_owner_id: user.id) }
+      let(:answer_params) do
+        {
+          'body' => 'New body',
+        }
+      end
+
+      context 'author' do
+        let(:answer) { create(:answer, user: user) }
+
+        it 'updates the answer' do
+          put api_path, params: {access_token: access_token.token, answer: answer_params}.to_json, headers: headers
+          expect(response).to have_http_status(:ok)
+          expect(json['answer']).to a_hash_including(answer_params)
+        end
+      end
+
+      context 'not author' do
+        let(:answer) { create(:answer) }
+
+        it 'returns an error' do
+          put api_path, params: {access_token: access_token.token, answer: answer_params}.to_json, headers: headers
+          expect(response).to have_http_status(:forbidden)
+          expect(json['errors']).to match('You are not authorized to access this page')
+        end
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/answers/:id' do
+    let(:answer) { create(:answer) }
+    let(:api_path) { "/api/v1/answers/#{answer.id}" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :delete }
+    end
+
+    context 'authorized' do
+      let(:user) { create(:user) }
+      let(:access_token) { create(:oauth_access_token, resource_owner_id: user.id) }
+
+      context 'author' do
+        let!(:answer) { create(:answer, user: user) }
+
+        it 'delete the answer' do
+          expect {
+            delete api_path, params: {access_token: access_token.token}.to_json, headers: headers
+          }.to change { user.answers.count }.from(1).to(0)
+
+          expect(response).to have_http_status(:no_content)
+        end
+      end
+
+      context 'not author' do
+        let!(:answer) { create(:answer) }
+
+        it "does't delete the answer" do
+          expect {
+            delete api_path, params: {access_token: access_token.token}.to_json, headers: headers
+          }.to_not change { user.answers.count }
+        end
+
+        it 'returns an error' do
+          delete api_path, params: {access_token: access_token.token}.to_json, headers: headers
+          expect(response).to have_http_status(:forbidden)
+          expect(json['errors']).to match('You are not authorized to access this page')
+        end
+      end
+    end
+  end
 end
