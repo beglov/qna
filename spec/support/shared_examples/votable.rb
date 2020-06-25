@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 shared_examples_for 'votable' do
   describe '#rating' do
     it 'return rating value' do
