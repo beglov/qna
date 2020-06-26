@@ -38,6 +38,7 @@ class Ability
       !user.author_of?(resource)
     end
     can :cancel_vote, [Question, Answer]
+    can [:subscribe, :unsubscribe], Question
     can :select_best, Answer, user_id: user.id
   end
 end

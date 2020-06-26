@@ -19,6 +19,10 @@ Rails.application.routes.draw do
   end
 
   resources :questions, concerns: :votable do
+    member do
+      post :subscribe
+      post :unsubscribe
+    end
     resources :answers, shallow: true, concerns: :votable do
       member do
         post :select_best

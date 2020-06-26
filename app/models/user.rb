@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_many :answers, dependent: :nullify
   has_many :rewards, dependent: :nullify
   has_many :authorizations, dependent: :delete_all
+  has_many :subscriptions, dependent: :delete_all
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -20,6 +21,10 @@ class User < ApplicationRecord
 
   def voted?(resource)
     resource.votes.exists?(user_id: id)
+  end
+
+  def subscribed?(question)
+    subscriptions.exists?(question_id: question.id)
   end
 
   def create_authorization(auth)

@@ -44,11 +44,13 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
+    let(:question) { create(:question, user: user) }
+
     before { login(user) }
-    before { get :edit, params: {id: user_question} }
+    before { get :edit, params: {id: question} }
 
     it 'assigns requested question to @question' do
-      expect(assigns(:question)).to eq user_question
+      expect(assigns(:question)).to eq question
     end
     it 'renders edit view' do
       expect(response).to render_template :edit
@@ -150,6 +152,52 @@ RSpec.describe QuestionsController, type: :controller do
         delete :destroy, params: {id: question}
         expect(response).to redirect_to root_path
       end
+    end
+  end
+
+  describe 'POST #subscribe' do
+    before { login(user) }
+
+    context 'not subscribed' do
+      it 'subscribe to question' do
+        expect {
+          post :subscribe, params: {id: question, format: :js}
+        }.to change(user.subscriptions, :count).by(1)
+      end
+      it 'render subscribe view' do
+        post :subscribe, params: {id: question, format: :js}
+        expect(response).to render_template :subscribe
+      end
+    end
+
+    context 'already subscribed' do
+      let!(:subscription) { create(:subscription, user: user, question: question) }
+
+      it 'do not subscribe twice' do
+        expect {
+          post :subscribe, params: {id: question, format: :js}
+        }.to_not change(user.subscriptions, :count)
+      end
+      it 'render subscribe view' do
+        post :subscribe, params: {id: question, format: :js}
+        expect(response).to render_template :subscribe
+      end
+    end
+  end
+
+  describe 'POST #unsubscribe' do
+    let!(:subscription) { create(:subscription, user: user, question: question) }
+
+    before { login(user) }
+
+    it 'unsubscribe to question' do
+      expect {
+        post :unsubscribe, params: {id: question, format: :js}
+      }.to change(user.subscriptions, :count).from(1).to(0)
+    end
+    it 'render unsubscribe view' do
+      post :unsubscribe, params: {id: question, format: :js}
+      expect(response).to render_template :unsubscribe
     end
   end
 
