@@ -47,14 +47,6 @@ class QuestionsController < ApplicationController
     redirect_to questions_path, notice: 'Question was successfully deleted.'
   end
 
-  def subscribe
-    current_user.subscriptions.find_or_create_by(question_id: params[:id])
-  end
-
-  def unsubscribe
-    current_user.subscriptions.where(question_id: params[:id]).delete_all
-  end
-
   private
 
   def load_question

@@ -9,11 +9,11 @@
       - if can?(:update, question)
         = link_to('Edit question', '#', class: 'card-link edit-question-link', data: {question_id: question.id})
 
-    - if can?(:subscribe, question)
-      = link_to('Subscribe', subscribe_question_path(question), method: :post, remote: true,
+    - if can?(:create, Subscription)
+      = link_to('Subscribe', question_subscriptions_path(question), method: :post, remote: true,
               class: "card-link subscribe-question-link #{current_user.subscribed?(question) ? 'hidden' : ''}")
-    - if can?(:unsubscribe, question)
-      = link_to('Unsubscribe', unsubscribe_question_path(question), method: :post, remote: true,
+    - if can?(:destroy, Subscription)
+      = link_to('Unsubscribe', subscription_path(question), method: :delete, remote: true,
               class: "card-link unsubscribe-question-link #{current_user.subscribed?(question) ? '' : 'hidden'}")
     - if can?(:down, question)
       = link_to('Down!', down_question_path(question), method: :post, remote: true,

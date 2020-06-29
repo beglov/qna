@@ -155,52 +155,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'POST #subscribe' do
-    before { login(user) }
-
-    context 'not subscribed' do
-      it 'subscribe to question' do
-        expect {
-          post :subscribe, params: {id: question, format: :js}
-        }.to change(user.subscriptions, :count).by(1)
-      end
-      it 'render subscribe view' do
-        post :subscribe, params: {id: question, format: :js}
-        expect(response).to render_template :subscribe
-      end
-    end
-
-    context 'already subscribed' do
-      let!(:subscription) { create(:subscription, user: user, question: question) }
-
-      it 'do not subscribe twice' do
-        expect {
-          post :subscribe, params: {id: question, format: :js}
-        }.to_not change(user.subscriptions, :count)
-      end
-      it 'render subscribe view' do
-        post :subscribe, params: {id: question, format: :js}
-        expect(response).to render_template :subscribe
-      end
-    end
-  end
-
-  describe 'POST #unsubscribe' do
-    let!(:subscription) { create(:subscription, user: user, question: question) }
-
-    before { login(user) }
-
-    it 'unsubscribe to question' do
-      expect {
-        post :unsubscribe, params: {id: question, format: :js}
-      }.to change(user.subscriptions, :count).from(1).to(0)
-    end
-    it 'render unsubscribe view' do
-      post :unsubscribe, params: {id: question, format: :js}
-      expect(response).to render_template :unsubscribe
-    end
-  end
-
   it_behaves_like 'voted' do
     let(:votable) { create(:question) }
     let(:user_votable) { create(:question, user: user) }

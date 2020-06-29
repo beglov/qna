@@ -12,7 +12,7 @@ class Answer < ApplicationRecord
 
   validates :body, presence: {message: "Answer can't be blank"}
 
-  after_create :send_notification
+  after_commit :send_notification, on: :create
 
   def select_best!
     Answer.transaction do
