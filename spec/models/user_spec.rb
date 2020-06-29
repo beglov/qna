@@ -6,6 +6,7 @@ RSpec.describe User, type: :model do
     it { should have_many(:answers).dependent(:nullify) }
     it { should have_many(:rewards).dependent(:nullify) }
     it { should have_many(:authorizations).dependent(:delete_all) }
+    it { should have_many(:subscriptions).dependent(:delete_all) }
   end
 
   describe 'validations' do
@@ -35,6 +36,19 @@ RSpec.describe User, type: :model do
 
     it 'not author of another question' do
       expect(user).to_not be_author_of(question)
+    end
+  end
+
+  describe '#subscribed?' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+
+    it 'returns true if has subscription to question' do
+      subscription = create(:subscription, user: user, question: question)
+      expect(user).to be_subscribed(question)
+    end
+    it "returns false if has't subscription to question" do
+      expect(user).to_not be_subscribed(question)
     end
   end
 end

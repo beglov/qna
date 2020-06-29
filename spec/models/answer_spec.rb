@@ -23,6 +23,15 @@ RSpec.describe Answer, type: :model do
     expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
 
+  describe 'send email notification after create' do
+    let(:answer) { build(:answer) }
+
+    it 'calls AnswerNotificationJob' do
+      expect(AnswerNotificationJob).to receive(:perform_later).with(answer)
+      answer.save!
+    end
+  end
+
   describe '#select_best!' do
     let!(:reward) { create(:reward, question: question) }
     let(:answer) { create(:answer, question: question, user: user) }

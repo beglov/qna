@@ -12,11 +12,19 @@ class Answer < ApplicationRecord
 
   validates :body, presence: {message: "Answer can't be blank"}
 
+  after_commit :send_notification, on: :create
+
   def select_best!
     Answer.transaction do
       Answer.where(question_id: question_id).update_all(best: false)
       question.reward&.update!(user_id: user_id)
       update!(best: true)
     end
+  end
+
+  private
+
+  def send_notification
+    AnswerNotificationJob.perform_later(self)
   end
 end
