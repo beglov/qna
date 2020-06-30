@@ -61,6 +61,7 @@ group :test do
   gem 'chromedriver-helper'
   gem 'shoulda-matchers'
   gem 'rails-controller-testing'
+  gem 'database_cleaner-active_record'
   gem 'launchy'
 end
 
