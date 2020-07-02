@@ -50,7 +50,7 @@ feature 'User can edit his answer', %q(
 
         scenario 'and attached files' do
           within "#answer-#{answer.id}" do
-            attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"], make_visible: true
+            attach_file 'Files', [Rails.root.join('spec/rails_helper.rb'), Rails.root.join('spec/spec_helper.rb')], make_visible: true
             click_on 'Save'
 
             expect(page).to have_link 'rails_helper.rb'

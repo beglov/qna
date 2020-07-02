@@ -26,9 +26,11 @@ gem 'doorkeeper'
 gem 'active_model_serializers', '~> 0.10'
 gem 'oj'
 gem 'sidekiq'
+gem 'mysql2'
+gem 'thinking-sphinx'
+
 gem 'sinatra', require: false
 gem 'whenever', require: false
-
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'rubocop-rails', require: false
@@ -59,6 +61,7 @@ group :test do
   gem 'chromedriver-helper'
   gem 'shoulda-matchers'
   gem 'rails-controller-testing'
+  gem 'database_cleaner-active_record'
   gem 'launchy'
 end
 

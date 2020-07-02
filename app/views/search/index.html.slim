@@ -1,0 +1,3 @@
+h2 Search results:
+- @results.each do |object|
+  = render "search/#{object.class.name.underscore}", object: object

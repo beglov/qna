@@ -31,7 +31,7 @@ feature 'User can create question', %q(
       end
 
       scenario 'and attached files' do
-        attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        attach_file 'Files', [Rails.root.join('spec/rails_helper.rb'), Rails.root.join('spec/spec_helper.rb')]
         click_on 'Ask'
 
         expect(page).to have_link 'rails_helper.rb'
@@ -40,7 +40,7 @@ feature 'User can create question', %q(
 
       scenario 'and assign an award for the best answer' do
         fill_in 'Reward title', with: 'Test reward'
-        attach_file 'Reward file', "#{Rails.root}/spec/fixtures/files/example.jpg"
+        attach_file 'Reward file', Rails.root.join('spec/fixtures/files/example.jpg')
         click_on 'Ask'
 
         expect(page).to have_content 'Test reward'
