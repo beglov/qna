@@ -1,2 +1,2 @@
 h3 Comment
-h4 = link_to object.body, question_path(object.commentable)
+h4 = link_to object.body, question_path(object.commentable.is_a?(Question) ? object.commentable : object.commentable.question)
