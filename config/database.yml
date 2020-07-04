@@ -17,4 +17,4 @@ production:
   <<: *default
   database: qna_production
   username: postgres
-  password: <%= ENV['DB_PASSWORD'] %>
+  password: <%= Rails.application.credentials[:production][:DB_PASSWORD] %>
