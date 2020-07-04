@@ -275,7 +275,7 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    redis (4.2.1)
+    redis (4.1.4)
     regexp_parser (1.7.0)
     request_store (1.5.0)
       rack (>= 1.4)
@@ -343,10 +343,11 @@ GEM
       rubyzip (>= 1.2.2)
     shoulda-matchers (4.3.0)
       activesupport (>= 4.2.0)
-    sidekiq (6.1.0)
-      connection_pool (>= 2.2.2)
+    sidekiq (5.2.9)
+      connection_pool (~> 2.2, >= 2.2.2)
       rack (~> 2.0)
-      redis (>= 4.2.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 4.2)
     sinatra (2.0.8.1)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -457,7 +458,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   selenium-webdriver
   shoulda-matchers
-  sidekiq
+  sidekiq (< 6)
   sinatra
   skim
   slim-rails

@@ -25,7 +25,7 @@ gem 'cancancan'
 gem 'doorkeeper'
 gem 'active_model_serializers', '~> 0.10'
 gem 'oj'
-gem 'sidekiq'
+gem 'sidekiq', '< 6'
 gem 'mysql2'
 gem 'thinking-sphinx'
 
