@@ -1,11 +1,12 @@
-= render @question
+- cache @question do
+  = render @question
 
-.answers
-  = render @question.answers.reject(&:new_record?)
+  .answers
+    = render @question.answers.reject(&:new_record?)
 
-- if user_signed_in?
-  = render 'add_comment_modal'
+  - if user_signed_in?
+    = render 'add_comment_modal'
 
-  .card.mt-3#new-answer
-    .card-body
-      = render 'answers/form', answer: @answer
+    .card.mt-3#new-answer
+      .card-body
+        = render 'answers/form', answer: @answer
