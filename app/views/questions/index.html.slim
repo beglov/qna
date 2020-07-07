@@ -1,14 +1,15 @@
-h1 Questions
+- cache collection_cache_key_for :question do
+  h1 Questions
 
-table.questions.table.table-striped
-  thead.thead-light
-    tr
-      th scope="col" Question
-  tbody
-    - @questions.each do |question|
+  table.questions.table.table-striped
+    thead.thead-light
       tr
-        td scope="row"
-          = link_to question.title, question
+        th scope="col" Question
+    tbody
+      - @questions.each do |question|
+        tr
+          td scope="row"
+            = link_to question.title, question
 
-- if can?(:create, Question)
-  p= link_to 'Ask question', new_question_path
+  - if can?(:create, Question)
+    p= link_to 'Ask question', new_question_path
