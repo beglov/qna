@@ -3,14 +3,13 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
-  let!(:user_answer) { create(:answer, user: user, question: question) }
-  let!(:answer) { create(:answer, question: question) }
+  let!(:answer) { create(:answer, user: user, question: question) }
 
   describe 'GET #show' do
-    before { get :show, params: {id: user_answer} }
+    before { get :show, params: {id: answer} }
 
     it 'assigns requested answer to @answer' do
-      expect(assigns(:answer)).to eq user_answer
+      expect(assigns(:answer)).to eq answer
     end
     it 'renders show view' do
       expect(response).to render_template :show
@@ -31,10 +30,10 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'GET #edit' do
     before { login(user) }
-    before { get :edit, params: {id: user_answer} }
+    before { get :edit, params: {id: answer} }
 
     it 'assigns requested answer to @answer' do
-      expect(assigns(:answer)).to eq user_answer
+      expect(assigns(:answer)).to eq answer
     end
     it 'renders edit view' do
       expect(response).to render_template :edit
@@ -43,37 +42,43 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     before { login(user) }
-    let!(:answer) { create(:answer) }
+
+    let(:form_params) { attributes_for(:answer) }
+    let(:params) do
+      {
+        question_id: question,
+        answer: form_params,
+        format: :js
+      }
+    end
+
+    subject { post :create, params: params }
 
     it 'assigns question to @question' do
-      post :create, params: {question_id: question, answer: attributes_for(:answer), format: :js}
+      subject
       expect(assigns(:question)).to eq question
     end
 
-    context 'with valid attributes' do
-      it 'saves a new answer in the database' do
-        expect {
-          post :create, params: {question_id: question, answer: attributes_for(:answer), format: :js}
-        }.to change(question.answers, :count).by(1)
-      end
-      it 'authenticated user to be author of answer' do
-        post :create, params: {question_id: question, answer: attributes_for(:answer), format: :js}
-        expect(user).to be_author_of(assigns(:answer))
-      end
-      it 'renders create template' do
-        post :create, params: {question_id: question, answer: attributes_for(:answer), format: :js}
-        expect(response).to render_template :create
-      end
+    it 'saves a new answer in the database' do
+      expect { subject }.to change(question.answers, :count).by(1)
+    end
+    it 'authenticated user to be author of answer' do
+      subject
+      expect(user).to be_author_of(assigns(:answer))
+    end
+    it 'renders create template' do
+      subject
+      expect(response).to render_template :create
     end
 
     context 'with invalid attributes' do
+      let(:form_params) { attributes_for(:answer, :invalid) }
+
       it 'does not save the answer' do
-        expect {
-          post :create, params: {question_id: question, answer: attributes_for(:answer, :invalid), format: :js}
-        }.to_not change(Answer, :count)
+        expect { subject }.to_not change(Answer, :count)
       end
       it 'renders create template' do
-        post :create, params: {question_id: question, answer: attributes_for(:answer, :invalid), format: :js}
+        subject
         expect(response).to render_template :create
       end
     end
@@ -82,28 +87,39 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #update' do
     before { login(user) }
 
-    context 'with valid attributes' do
-      it 'assigns requested answer to @answer' do
-        patch :update, params: {id: user_answer, answer: {body: 'new body'}, format: :js}
-        expect(assigns(:answer)).to eq user_answer
-      end
-      it 'changes answer attributes' do
-        patch :update, params: {id: user_answer, answer: {body: 'new body'}, format: :js}
-        user_answer.reload
-        expect(user_answer.body).to eq 'new body'
-      end
-      it 'render update view' do
-        patch :update, params: {id: user_answer, answer: {body: 'new body'}, format: :js}
-        expect(response).to render_template :update
-      end
+    let(:form_params) { {body: 'new body'} }
+    let(:params) do
+      {
+        id: answer,
+        answer: form_params,
+        format: :js
+      }
+    end
+
+    subject { patch :update, params: params }
+
+    it 'assigns requested answer to @answer' do
+      subject
+      expect(assigns(:answer)).to eq answer
+    end
+    it 'changes answer attributes' do
+      subject
+      answer.reload
+      expect(answer.body).to eq 'new body'
+    end
+    it 'render update view' do
+      subject
+      expect(response).to render_template :update
     end
 
     context 'with invalid attributes' do
-      before { patch :update, params: {id: user_answer, answer: attributes_for(:answer, :invalid), format: :js} }
+      let(:form_params) { {body: ''} }
+
+      before { subject }
 
       it 'does not change answer attributes' do
-        user_answer.reload
-        expect(user_answer.body).to eq 'MyText'
+        answer.reload
+        expect(answer.body).to eq 'MyText'
       end
       it 'render update view' do
         expect(response).to render_template :update
@@ -112,28 +128,28 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    subject { delete :destroy, params: {id: answer, format: :js} }
+
     before { login(user) }
 
     context 'author' do
       it 'delete the answer' do
-        expect {
-          delete :destroy, params: {id: user_answer, format: :js}
-        }.to change(Answer, :count).by(-1)
+        expect { subject }.to change(Answer, :count).by(-1)
       end
       it 'render destroy template' do
-        delete :destroy, params: {id: user_answer, format: :js}
+        subject
         expect(response).to render_template :destroy
       end
     end
 
     context 'not author' do
+      let!(:answer) { create(:answer, question: question) }
+
       it 'no delete the answer' do
-        expect {
-          delete :destroy, params: {id: answer, format: :js}
-        }.to_not change(Answer, :count)
+        expect { subject }.to_not change(Answer, :count)
       end
       it 'return forbidden status' do
-        delete :destroy, params: {id: answer, format: :js}
+        subject
         expect(response).to have_http_status(:forbidden)
       end
     end
@@ -143,14 +159,14 @@ RSpec.describe AnswersController, type: :controller do
     before { login(user) }
 
     context 'author' do
-      before { post :select_best, params: {id: user_answer, format: :js} }
+      before { post :select_best, params: {id: answer, format: :js} }
 
       it 'assigns requested answer to @answer' do
-        expect(assigns(:answer)).to eq user_answer
+        expect(assigns(:answer)).to eq answer
       end
       it 'update best attribute' do
-        user_answer.reload
-        expect(user_answer.best).to eq true
+        answer.reload
+        expect(answer.best).to eq true
       end
       it 'render select_best template' do
         expect(response).to render_template :select_best
@@ -158,11 +174,13 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'not author' do
+      let!(:answer) { create(:answer, question: question) }
+
       before { post :select_best, params: {id: answer, format: :js} }
 
       it 'not update best attribute' do
-        user_answer.reload
-        expect(user_answer.best).to_not eq true
+        answer.reload
+        expect(answer.best).to_not eq true
       end
       it 'return forbidden status' do
         expect(response).to have_http_status(:forbidden)
