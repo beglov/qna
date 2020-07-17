@@ -14,7 +14,7 @@ RSpec.describe AnswersController, type: :controller do
     it 'assigns requested answer to @answer' do
       expect(assigns(:answer)).to eq answer
     end
-    it 'renders show view' do
+    it 'renders show template' do
       expect(response).to render_template :show
     end
   end
@@ -25,7 +25,7 @@ RSpec.describe AnswersController, type: :controller do
     it 'assigns a new Answer to @answer' do
       expect(assigns(:answer)).to be_a_new(Answer)
     end
-    it 'renders new view' do
+    it 'renders new template' do
       expect(response).to render_template :new
     end
   end
@@ -36,7 +36,7 @@ RSpec.describe AnswersController, type: :controller do
     it 'assigns requested answer to @answer' do
       expect(assigns(:answer)).to eq answer
     end
-    it 'renders edit view' do
+    it 'renders edit template' do
       expect(response).to render_template :edit
     end
   end
@@ -70,16 +70,8 @@ RSpec.describe AnswersController, type: :controller do
       expect(response).to render_template :create
     end
 
-    context 'with invalid attributes' do
+    it_behaves_like 'invalid params', model: Answer, template: 'create' do
       let(:form_params) { attributes_for(:answer, :invalid) }
-
-      it 'does not save the answer' do
-        expect { subject }.to_not change(Answer, :count)
-      end
-      it 'renders create template' do
-        subject
-        expect(response).to render_template :create
-      end
     end
   end
 
@@ -95,31 +87,25 @@ RSpec.describe AnswersController, type: :controller do
 
     subject { patch :update, params: params }
 
+    before { subject }
+
     it 'assigns requested answer to @answer' do
-      subject
       expect(assigns(:answer)).to eq answer
     end
     it 'changes answer attributes' do
-      subject
       answer.reload
       expect(answer.body).to eq 'new body'
     end
-    it 'render update view' do
-      subject
+    it 'render update template' do
       expect(response).to render_template :update
     end
 
-    context 'with invalid attributes' do
+    it_behaves_like 'invalid params', template: 'update' do
       let(:form_params) { {body: ''} }
-
-      before { subject }
 
       it 'does not change answer attributes' do
         answer.reload
         expect(answer.body).to eq 'MyText'
-      end
-      it 'render update view' do
-        expect(response).to render_template :update
       end
     end
   end
