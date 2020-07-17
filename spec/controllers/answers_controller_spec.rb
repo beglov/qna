@@ -1,11 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:user) { create(:user) }
+  include_context 'authorized user'
+
   let(:question) { create(:question, user: user) }
-  let!(:answer) { create(:answer, user: user, question: question) }
+  let(:answer) { create(:answer, user: user, question: question) }
 
   describe 'GET #show' do
+    include_context 'unauthorized user'
+
     before { get :show, params: {id: answer} }
 
     it 'assigns requested answer to @answer' do
@@ -17,7 +20,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #new' do
-    before { login(user) }
     before { get :new, params: {question_id: question} }
 
     it 'assigns a new Answer to @answer' do
@@ -29,7 +31,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #edit' do
-    before { login(user) }
     before { get :edit, params: {id: answer} }
 
     it 'assigns requested answer to @answer' do
@@ -41,8 +42,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
-    before { login(user) }
-
     let(:form_params) { attributes_for(:answer) }
     let(:params) do
       {
@@ -85,8 +84,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    before { login(user) }
-
     let(:form_params) { {body: 'new body'} }
     let(:params) do
       {
@@ -128,9 +125,9 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    subject { delete :destroy, params: {id: answer, format: :js} }
+    let!(:answer) { create(:answer, user: user, question: question) }
 
-    before { login(user) }
+    subject { delete :destroy, params: {id: answer, format: :js} }
 
     context 'author' do
       it 'delete the answer' do
@@ -156,8 +153,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #select_best' do
-    before { login(user) }
-
     context 'author' do
       before { post :select_best, params: {id: answer, format: :js} }
 
@@ -174,7 +169,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'not author' do
-      let!(:answer) { create(:answer, question: question) }
+      let(:answer) { create(:answer, question: question) }
 
       before { post :select_best, params: {id: answer, format: :js} }
 
