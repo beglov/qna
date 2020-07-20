@@ -245,6 +245,9 @@ GEM
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
+    rack_session_access (0.2.0)
+      builder (>= 2.0.0)
+      rack (>= 1.0.0)
     rails (5.2.4.3)
       actioncable (= 5.2.4.3)
       actionmailer (= 5.2.4.3)
@@ -459,6 +462,7 @@ DEPENDENCIES
   omniauth-vkontakte
   pg (>= 0.18, < 2.0)
   puma (~> 3.12)
+  rack_session_access
   rails (~> 5.2.4, >= 5.2.4.3)
   rails-controller-testing
   rspec-rails (~> 4.0.0)

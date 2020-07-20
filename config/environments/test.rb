@@ -58,4 +58,6 @@ Rails.application.configure do
       :uid => '123456',
       :info => {:email => 'new_vkontakte@user.com'}
     })
+
+  config.middleware.use RackSessionAccess::Middleware
 end

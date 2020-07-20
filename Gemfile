@@ -72,6 +72,7 @@ group :test do
   gem 'rails-controller-testing'
   gem 'database_cleaner-active_record'
   gem 'launchy'
+  gem 'rack_session_access'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
