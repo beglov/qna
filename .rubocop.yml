@@ -2,14 +2,14 @@ require: rubocop-rails
 
 AllCops:
   NewCops: enable
+  DisplayStyleGuide: true
+  ExtraDetails: true
   Exclude:
-    - 'db/**/*'
+    - 'db/schema.rb'
     - 'config/**/*'
-    - 'script/**/*'
-    - 'bin/*'
+    - 'bin/**/*'
     - 'spec/rails_helper.rb'
     - 'spec/spec_helper.rb'
-    - !ruby/regexp /old_and_unused\.rb$/
 
 Style/FrozenStringLiteralComment:
   Enabled: false
@@ -29,7 +29,20 @@ Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 Layout/FirstArrayElementIndentation:
   EnforcedStyle: consistent
+Metrics/AbcSize:
+  Exclude:
+    - 'db/**/*'
+Metrics/MethodLength:
+  Exclude:
+    - 'db/**/*'
+Layout/LineLength:
+  Exclude:
+    - 'spec/**/*'
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/**/*'
 Metrics/BlockLength:
-  ExcludedMethods: ['describe', 'feature']
+  Exclude:
+    - 'spec/**/*'
 Bundler/OrderedGems:
   Enabled: false

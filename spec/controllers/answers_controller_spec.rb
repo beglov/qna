@@ -47,7 +47,7 @@ RSpec.describe AnswersController, type: :controller do
       {
         question_id: question,
         answer: form_params,
-        format: :js
+        format: :js,
       }
     end
 
@@ -81,7 +81,7 @@ RSpec.describe AnswersController, type: :controller do
       {
         id: answer,
         answer: form_params,
-        format: :js
+        format: :js,
       }
     end
 

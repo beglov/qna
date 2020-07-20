@@ -44,7 +44,7 @@ RSpec.describe User, type: :model do
     let(:question) { create(:question) }
 
     it 'returns true if has subscription to question' do
-      subscription = create(:subscription, user: user, question: question)
+      create(:subscription, user: user, question: question)
       expect(user).to be_subscribed(question)
     end
     it "returns false if has't subscription to question" do

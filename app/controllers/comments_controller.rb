@@ -24,8 +24,14 @@ class CommentsController < ApplicationController
   def publish_comment
     return if @commentable.errors.any?
 
+    channel = if @commentable.is_a?(Question)
+                "question_#{@commentable.id}_comments"
+              else
+                "question_#{@commentable.question_id}_answers_comments"
+              end
+
     ActionCable.server.broadcast(
-      @commentable.is_a?(Question) ? "question_#{@commentable.id}_comments" : "question_#{@commentable.question_id}_answers_comments",
+      channel,
       CommentSerializer.new(@comment).to_json
     )
   end
