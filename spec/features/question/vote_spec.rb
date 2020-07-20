@@ -14,7 +14,7 @@ feature 'User can vote for the question' do
   describe 'Authenticated user' do
     background { login(user) }
 
-    scenario 'can vote up for the question they like', js: true do
+    scenario 'can vote up for the question they like', :js do
       visit question_path(question)
 
       within "#question-#{question.id}" do
@@ -26,7 +26,7 @@ feature 'User can vote for the question' do
       end
     end
 
-    scenario 'can vote down for the question they like', js: true do
+    scenario 'can vote down for the question they like', :js do
       visit question_path(question)
 
       within "#question-#{question.id}" do
@@ -38,7 +38,7 @@ feature 'User can vote for the question' do
       end
     end
 
-    scenario 'can cancel their vote', js: true do
+    scenario 'can cancel their vote', :js do
       visit question_path(question)
 
       within "#question-#{question.id}" do

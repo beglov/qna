@@ -19,7 +19,7 @@ feature 'User can select best answer', %q(
   describe 'Authenticated user' do
     background { login(user) }
 
-    scenario 'select best answer for his question', js: true do
+    scenario 'select best answer for his question', :js do
       visit question_path(question)
 
       answers.each do |answer|

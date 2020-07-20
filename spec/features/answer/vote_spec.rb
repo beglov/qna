@@ -18,7 +18,7 @@ feature 'User can vote for the answer' do
       visit question_path(question)
     end
 
-    scenario 'can vote up for the answer they like', js: true do
+    scenario 'can vote up for the answer they like', :js do
       within "#answer-#{answer.id}" do
         click_on 'Up!'
         expect(page).to_not have_link 'Up!'
@@ -28,7 +28,7 @@ feature 'User can vote for the answer' do
       end
     end
 
-    scenario 'can vote down for the answer they like', js: true do
+    scenario 'can vote down for the answer they like', :js do
       within "#answer-#{answer.id}" do
         click_on 'Down!'
         expect(page).to_not have_link 'Up!'
@@ -38,7 +38,7 @@ feature 'User can vote for the answer' do
       end
     end
 
-    scenario 'can cancel their vote', js: true do
+    scenario 'can cancel their vote', :js do
       within "#answer-#{answer.id}" do
         click_on 'Up!'
         expect(page).to_not have_link 'Up!'

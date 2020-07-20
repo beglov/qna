@@ -18,7 +18,7 @@ feature 'User can edit his question', %q(
   describe 'Authenticated user' do
     background { login(user) }
 
-    describe 'edit his question', js: true do
+    describe 'edit his question', :js do
       background do
         visit question_path(question)
         click_on 'Edit question'

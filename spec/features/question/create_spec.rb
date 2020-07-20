@@ -59,7 +59,7 @@ feature 'User can create question', %q(
     expect(page).to_not have_link 'Ask question'
   end
 
-  scenario "question appears on another user's page", js: true do
+  scenario "question appears on another user's page", :js do
     Capybara.using_session('user') do
       login(user)
       visit questions_path

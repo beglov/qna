@@ -20,7 +20,7 @@ feature 'Author of answer can delete attached files' do
       visit question_path(question)
     end
 
-    scenario 'deletes file of his answer', js: true do
+    scenario 'deletes file of his answer', :js do
       within "#answer-#{answer.id}" do
         expect(page).to have_content 'example.jpg'
         accept_confirm do

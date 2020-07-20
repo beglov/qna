@@ -13,7 +13,7 @@ feature 'User can delete answer', %q(
   describe 'Authenticated user tries to delete answer' do
     background { login(user) }
 
-    scenario 'as author of answer', js: true do
+    scenario 'as author of answer', :js do
       visit question_path(answer.question)
 
       within "#answer-#{answer.id}" do

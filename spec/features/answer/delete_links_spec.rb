@@ -21,7 +21,7 @@ feature 'User can delete links from answer', %(
     background { login(user) }
     background { visit question_path(question) }
 
-    scenario "as answer's author can delete links", js: true do
+    scenario "as answer's author can delete links", :js do
       within "#answer-#{answer.id}" do
         expect(page).to have_link 'Test link', href: 'http://foo.com'
         accept_confirm do

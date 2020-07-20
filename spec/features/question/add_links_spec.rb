@@ -9,7 +9,7 @@ feature 'User can add links to question', %(
   given(:gist_url) { 'https://gist.github.com/beglov/736817e4f485da27bf995a6bda7fb7a9' }
   given(:google_url) { 'https://www.google.com/' }
 
-  scenario 'User adds links to when asks question', js: true do
+  scenario 'User adds links to when asks question', :js do
     login(user)
     visit new_question_path
 

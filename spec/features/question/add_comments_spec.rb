@@ -9,7 +9,7 @@ feature 'User can add comments to question' do
     expect(page).to_not have_link 'Add comment'
   end
 
-  describe 'Authenticated user', js: true do
+  describe 'Authenticated user', :js do
     background do
       login(user)
 
@@ -35,7 +35,7 @@ feature 'User can add comments to question' do
     end
   end
 
-  scenario "comment appears on another user's page", js: true do
+  scenario "comment appears on another user's page", :js do
     Capybara.using_session('user') do
       login(user)
       visit question_path(question)

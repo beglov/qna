@@ -12,7 +12,7 @@ xfeature 'User can search for question', "
 
   background { visit root_path }
 
-  scenario 'in all context', js: true, sphinx: true do
+  scenario 'in all context', :js, :sphinx do
     select 'All', from: 'context'
     click_on 'Search'
     expect(page).to have_content user.email
@@ -28,7 +28,7 @@ xfeature 'User can search for question', "
     expect(page).to_not have_content comment.body
   end
 
-  scenario 'in questions context', js: true, sphinx: true do
+  scenario 'in questions context', :js, :sphinx do
     select 'Question', from: 'context'
     fill_in 'Search', with: question.title
     click_on 'Search'
@@ -38,7 +38,7 @@ xfeature 'User can search for question', "
     expect(page).to_not have_content comment.body
   end
 
-  scenario 'in answers context', js: true, sphinx: true do
+  scenario 'in answers context', :js, :sphinx do
     select 'Answer', from: 'context'
     fill_in 'Search', with: answer.body
     click_on 'Search'
@@ -48,7 +48,7 @@ xfeature 'User can search for question', "
     expect(page).to_not have_content comment.body
   end
 
-  scenario 'in comments context', js: true, sphinx: true do
+  scenario 'in comments context', :js, :sphinx do
     select 'Comment', from: 'context'
     fill_in 'Search', with: comment.body
     click_on 'Search'
@@ -58,7 +58,7 @@ xfeature 'User can search for question', "
     expect(page).to have_content comment.body
   end
 
-  scenario 'in users context', js: true, sphinx: true do
+  scenario 'in users context', :js, :sphinx do
     select 'User', from: 'context'
     fill_in 'Search', with: user.email
     click_on 'Search'

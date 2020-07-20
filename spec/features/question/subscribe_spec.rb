@@ -8,7 +8,7 @@ feature 'User can subscribe to question' do
     expect(page).to_not have_link 'Subscribe'
   end
 
-  describe 'Authenticated user', js: true do
+  describe 'Authenticated user', :js do
     given(:user) { create(:user) }
 
     scenario 'subscribe to question' do

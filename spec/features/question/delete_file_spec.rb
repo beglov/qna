@@ -13,7 +13,7 @@ feature 'Author of question can delete attached files' do
   describe 'Authenticated user' do
     background { login(user) }
 
-    scenario 'deletes file of his question', js: true do
+    scenario 'deletes file of his question', :js do
       question.files.attach(create_file_blob(filename: 'example.jpg'))
       visit question_path(question)
 

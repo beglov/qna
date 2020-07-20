@@ -19,7 +19,7 @@ feature 'User can delete links from question', %(
   describe 'Authenticated user' do
     background { login(user) }
 
-    scenario "as question's author can delete links", js: true do
+    scenario "as question's author can delete links", :js do
       visit question_path(question)
 
       within "#question-#{question.id}" do

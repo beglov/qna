@@ -19,7 +19,7 @@ feature 'User can edit his answer', %q(
   describe 'Authenticated user' do
     background { login(user) }
 
-    describe 'edit his answer', js: true do
+    describe 'edit his answer', :js do
       given(:google_url) { 'https://www.google.com/' }
       given(:gist_url) { 'https://gist.github.com/beglov/736817e4f485da27bf995a6bda7fb7a9' }
 
