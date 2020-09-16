@@ -4,7 +4,7 @@ class Question < ApplicationRecord
   include Linkable
   include Commentable
 
-  has_many :answers, -> { order('best DESC, created_at') }, dependent: :delete_all # rubocop:disable Rails/InverseOf
+  has_many :answers, -> { order('best DESC, created_at') }, dependent: :delete_all
   has_many :subscriptions, dependent: :delete_all
   has_one :reward, dependent: :destroy
 

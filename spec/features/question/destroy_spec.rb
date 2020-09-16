@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ
 feature 'User can delete question', %q(
   In order to remove unnecessary question
   As an question's author
@@ -32,4 +31,3 @@ feature 'User can delete question', %q(
     expect(page).to_not have_link 'Delete question'
   end
 end
-# rubocop:enable Style/RedundantPercentQ

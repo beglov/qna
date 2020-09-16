@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ
 feature 'User can edit his question', %q(
   In order to correct mistakes
   As an author of question
@@ -96,4 +95,3 @@ feature 'User can edit his question', %q(
     end
   end
 end
-# rubocop:enable Style/RedundantPercentQ

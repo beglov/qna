@@ -23,7 +23,6 @@ class Ability
     can :manage, :all
   end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def user_abilities
     guest_abilities
     can :me, User
@@ -43,5 +42,4 @@ class Ability
     can %i[create destroy], Subscription
     can :select_best, Answer, user_id: user.id
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 end

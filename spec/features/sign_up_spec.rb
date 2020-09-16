@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ
 feature 'User can register in the system', %q(
   In order to sign in
   As an not registered user
@@ -30,4 +29,3 @@ feature 'User can register in the system', %q(
     end
   end
 end
-# rubocop:enable Style/RedundantPercentQ

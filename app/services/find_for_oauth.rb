@@ -5,7 +5,6 @@ class Services::FindForOauth
     @auth = auth
   end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def call
     authorization = Authorization.find_by(provider: auth.provider, uid: auth.uid.to_s)
     return authorization.user if authorization
@@ -23,5 +22,4 @@ class Services::FindForOauth
 
     user
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 end

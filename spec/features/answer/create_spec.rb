@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ
 feature 'User can give an answer', %q(
   In order to share my knowledge
   As an authenticated user
@@ -81,4 +80,3 @@ feature 'User can give an answer', %q(
     end
   end
 end
-# rubocop:enable Style/RedundantPercentQ
