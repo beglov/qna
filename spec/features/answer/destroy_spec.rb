@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ
 feature 'User can delete answer', %q(
   In order to remove unnecessary answer
   As an answer's author
@@ -36,4 +35,3 @@ feature 'User can delete answer', %q(
     expect(page).to_not have_link 'Delete answer'
   end
 end
-# rubocop:enable Style/RedundantPercentQ

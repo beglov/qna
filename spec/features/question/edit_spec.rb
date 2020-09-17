@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ
 feature 'User can edit his question', %q(
   In order to correct mistakes
   As an author of question
@@ -26,7 +25,7 @@ feature 'User can edit his question', %q(
 
       describe 'with valid fields' do
         given(:google_url) { 'https://www.google.com/' }
-        given(:gist_url) { 'https://gist.github.com/beglov/736817e4f485da27bf995a6bda7fb7a9' }
+        given(:gist_url) { 'https://gist.github.com/beglov/4d3e2213d48d6741b7215cff8bfa1bfd' }
 
         background do
           fill_in 'Title', with: 'New Title'
@@ -96,4 +95,3 @@ feature 'User can edit his question', %q(
     end
   end
 end
-# rubocop:enable Style/RedundantPercentQ

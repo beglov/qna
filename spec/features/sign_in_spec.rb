@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ
 feature 'User can sign in', %q(
   In order to ask questions
   As an unauthenticated user
@@ -58,4 +57,3 @@ feature 'User can sign in', %q(
     expect(page).to have_content 'Invalid credentials'
   end
 end
-# rubocop:enable Style/RedundantPercentQ

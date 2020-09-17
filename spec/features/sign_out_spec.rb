@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ
 feature 'User can log out', %q(
   In order to end session
   As an authenticated user
@@ -20,4 +19,3 @@ feature 'User can log out', %q(
     expect(page).to have_content 'Signed out successfully.'
   end
 end
-# rubocop:enable Style/RedundantPercentQ

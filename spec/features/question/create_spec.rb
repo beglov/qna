@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ
 feature 'User can create question', %q(
   In order to get answer from a community
   As an authenticated user
@@ -86,4 +85,3 @@ feature 'User can create question', %q(
     end
   end
 end
-# rubocop:enable Style/RedundantPercentQ

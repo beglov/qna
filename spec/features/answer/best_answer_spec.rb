@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# rubocop:disable Style/RedundantPercentQ
 feature 'User can select best answer', %q(
   In order to show best answer for me
   As an author of question
@@ -39,4 +38,3 @@ feature 'User can select best answer', %q(
     end
   end
 end
-# rubocop:enable Style/RedundantPercentQ
