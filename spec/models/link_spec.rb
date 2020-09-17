@@ -12,7 +12,7 @@ RSpec.describe Link, type: :model do
   end
 
   describe '#gist?' do
-    let(:link_to_gist) { create(:link, url: 'https://gist.github.com/beglov/736817e4f485da27bf995a6bda7fb7a9') }
+    let(:link_to_gist) { create(:link, url: 'https://gist.github.com/beglov/4d3e2213d48d6741b7215cff8bfa1bfd') }
     let(:link) { create(:link) }
 
     it 'link to gist' do

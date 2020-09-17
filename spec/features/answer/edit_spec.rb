@@ -20,7 +20,7 @@ feature 'User can edit his answer', %q(
 
     describe 'edit his answer', :js do
       given(:google_url) { 'https://www.google.com/' }
-      given(:gist_url) { 'https://gist.github.com/beglov/736817e4f485da27bf995a6bda7fb7a9' }
+      given(:gist_url) { 'https://gist.github.com/beglov/4d3e2213d48d6741b7215cff8bfa1bfd' }
 
       background do
         visit question_path(question)
