@@ -1,6 +1,9 @@
+env:
+  POSTGRES_PASSWORD: 1q2w3e4r
+
 name: CI
 
-on: [push, pull_request]
+on: push
 
 jobs:
   test:
@@ -8,9 +11,9 @@ jobs:
 
     services:
       db:
-        image: postgres:11
+        image: postgres:10.15
         env:
-          POSTGRES_PASSWORD: 1q2w3e4r
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         ports:
           - 5432:5432
         options: >-
@@ -31,16 +34,21 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: Set up Ruby
+
+      - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
-      - name: Install dependencies
-        run: bundle install
+        with:
+          bundler-cache: true
+
+      - name: RuboCop
+        run: bundle exec rubocop --parallel --format github
+
       - name: Setup database and run tests
         env:
           RAILS_ENV: test
           DB_HOST: localhost
           DB_USER: postgres
-          DB_PASSWORD: 1q2w3e4r
+          DB_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           bundle exec rails db:setup
